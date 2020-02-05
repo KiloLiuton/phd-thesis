@@ -1,0 +1,84 @@
+\chapter{Introduction}
+
+In 1951 the Belousov-Zhabotinsky class of chemical reactions were created for the first time in a laboratory. They would become a
+classic example of non-equilibrium thermodynamics and helped instigate interest in the sub-area of complex systems: coupled
+oscillators. In the decades that followed other areas of research led, independently, to the same interest in studying coupled
+oscillators systems. In 1958, Norbet Weiner at the MIT was looking at power spectrum graphs generated from brain scans and decided that
+there must be some kind of synchronization amongst many coupled, periodically-firing, neurons. Also inspired by the many biological
+rhythms observed in nature, Arthur Winfree published in 1967 a paper on the mathematical modelling of interacting oscillators. Winfree
+defined a phase oscillator as an abstraction of a system that possesses a closed loop in its phase-space. A single real number between
+$0$ and $2\pi$ could describe, for example, a living cell that undergoes any kind of periodic cycle. The major simplification comes
+from the fact that when two such phase oscillators interact, each influences {\textit only} the phase value of the other. Their
+trajectories in phase space are assumed to be fixed, and only the velocity with which they traverse it is influenced by the coupling.
+
+Seven years after Winfree's paper from 1967, the then young Japanese scientist Yoshiki Kuramoto was inspired by it. He recognized what
+made Winfree's model hard to solve and proposed an arguably less realistic version of it, but the beauty of the now possible
+mathematical solution made up for it. So much so that it got it's own name, the Kuramoto model, one of the major founding stones of
+modern investigations on these kinds of dynamical systems.
+
+This work could be considered as one such branch, where the phase value that describes a unit has been discretized into only three
+possible values, $0$, $2\pi/3$ and $4\pi/3$. These types of discrete phase models saw much use in describing systems which present
+distinct states. One such system is interacting neurons, where one could choose to represent three different neuronal states as firing
+($\varphi_0$), refractory ($\varphi_1$) and ready-to-fire ($\varphi_2$). Another phenomenon explained by one such model is the
+synchronous blinking of some firefly species, which had long been reported but scientists were skeptical of it until camera recorders
+got around. If $n$ state representations are desired than the phase value of each unit would be one of $\{\varphi_0 ...
+\varphi_{n-1}\}$ with $\varphi_{n}=\varphi_0$.
+% TODO: Why was stochasticity introduced to these models?
+
+
+\chapter{Kuramoto Model}
+
+
+In this chapter we describe the Kuramoto model and reproduce his self-consistency arguments that allow for a synchronous phase to
+emerge at some critical coupling. In order to do this an order parameter must be introduced together with a mean-field approximation.
+The stability analysis of the solutions of the Kuramoto model took decades to develop and led to some very anti-intuitive findings such
+as the fact that the disordered phase for low-couplings is not stable, but neutrally stable, and is related to Landau damping in plasma
+physics. These later discussions are not in the scope of this chapter.
+
+\section{Equation}
+
+The Kuramoto model deals with an infinite number of phase oscillators which are all coupled to each other. We start with a collection
+of $N$ oscillators and then take the limit $N \to \infty$. Each unit is described by its phase value $\varphi_i$ and its natural
+frequency $\omega_i$. The natural frequency is the frequency with which an isolated oscillator rotates. The population of oscillators
+are assumed to have some distribution $g(\omega)$ which is symmetric about some frequency $\omega_0$ and has a single maximum at this
+same value.
+
+The biologically inspired Winfree model states that at every instant, each oscillator sends a signal of strength $P(\varphi)$ and
+responds by adjusting its own phase value by an amount $R(\varphi)$, which is captured in the equation:
+
+\begin{equation}
+    \label{winfreeeq}
+    \dot{\varphi_j} = \omega_j + \frac{1}{N}\sum_{k=1}^{N}P(\varphi_k)R(\varphi_j), \qquad i=1,...,N
+\end{equation}
+
+To make this solvable, we say that the angular frequency of a unit depends only on its relative phase to others. Furthermore, this
+dependency is through a sine kernel. This will make possible the self consistency arguments done later. This set of assumptions
+transforms (\ref{winfreeeq}) into:
+
+\begin{equation}
+    \label{kuramotoeq}
+    \dot{\varphi_j} = \omega_j + \frac{K}{N}\sum_{k=1}^{N}sin(\varphi_k - \varphi_j), \qquad i=1,...,N
+\end{equation}
+
+\noindent where $K>0$ is a real constant which describes the coupling strength and  $N>>1$.
+
+\section{Order Parameter}
+
+\section{Fubar}
+
+\subsection{Fufoobar}
+
+Fubbar
+
+\subsection{Fubfoo}
+
+f... BAR!
+
+\subsection{F}
+
+.
+
+\chapter{Fooblusions}
+
+b
+
