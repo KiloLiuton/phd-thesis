@@ -1,0 +1,356 @@
+\chapter{Kuramoto Model}
+
+
+In this chapter we describe the Kuramoto model, it's dynamics and self-consistency arguments that allow for a synchronous phase to
+emerge at some critical coupling. To do this, an order parameter is introduced together with a mean-field (MF) approximation. The
+stability analysis of the solutions of the Kuramoto model took decades to develop and led to some very anti-intuitive findings such as
+the fact that the disordered phase for weak coupling is not stable, but neutrally stable, and is related to Landau damping in plasma
+physics.  Nonetheless, the two branches of solutions identified in his initial work don't require solving the original set of
+equations, but rather rely on assuming macroscopic behaviors for the system and tracing back what implications they incur on the
+microscopic dynamics.  This feedback from macro to micro is central to Kuramoto's self-consistency arguments, which helped popularize
+his model by lowering the barrier of entry to understanding synchronization in complex systems. Much of the discussion developed in
+this section are reproductions from the notes \textit{J D da Fonseca and C V Abud J. Stat. Mech.} \cite{da_Fonseca_2018}.
+
+
+\section{Definition}
+
+The Kuramoto model deals with a collection of phase oscillators which are all coupled to each other. We start with a collection of $N$
+oscillators and then take the continuous limit with $N \to \infty$. Each unit at time $t$ is described by its phase value $\phase_j(t)$
+and its natural frequency $\nfreq_j$, which is its uncoupled phase rate of change and assumed to be constant. The natural frequencies
+$\vec{\nfreq}\equiv \{\nfreq_1,\dots,\nfreq_N\}$ are assumed to follow some frequency distribution $\vec{\nfreq} \sim g(\vec{\nfreq})$
+which is symmetric about some frequency $\bar{\nfreq}$ and unimodal. While the phase change of an isolated unit is only time dependent,
+the coupling between oscillators makes $\ddt{\phase_j}$ a function of the whole phase configuration $\vec{\phase}(t) \equiv \{
+\phase_1(t), \dots, \phase_N(t)\}$. In what follows, the time dependence of $\phase$ will be made implicit.
+
+The biologically inspired Winfree model states that, at every instant, each oscillator sends a signal of strength $P(\phase)$ and
+responds by adjusting its own phase value by an amount $Q(\phase)$, which is captured in the equation:
+
+\begin{equation}
+    \ddt{\phase_j} = \nfreq_j + \frac{1}{N}\sum^{N}_{k}P(\phase_k)Q(\phase_j), \qquad j=1,...,N
+    \label{winfreeeq}
+\end{equation}
+
+If the rate of change of a unit's phase depends only on the phase difference between itself and its neighbors, the product inside the
+summation can be written as a single function called the kernel $F$: $P(\Delta \phase)Q(\Delta \phase) \equiv F(\Delta \phase)$. If
+furthermore the kernel is proportional to the sine function, then Winfree's equation~(\ref{winfreeeq}) becomes the Kuramoto model:
+
+\begin{equation}
+    \ddt{\phase_j} = \nfreq_j + \frac{\kc}{N}\sum^{N}_{k}sin(\phase_k - \phase_j), \qquad j=1,...,N
+    \label{kura}
+\end{equation}
+
+\noindent where $\kc \geq 0$ is a real constant which describes the coupling strength between a pair of oscillators.
+
+\section{Mean-field and order parameter}
+
+To determine if the microscopic collection of phases represents a synchronized macro state, we introduce the Kuramoto order parameter
+$R$. It maps some phase configuration $\vec{\phase}$ to a magnitude by representing the phase values as complex numbers in the unit
+circle and performing a complex summation:
+
+\begin{align}
+    R(\vec{\phase})e^{i\phi(\vec{\phase})} &\equiv \frac{1}{N} \sum^{N}_{k} e^{\phase_k(t)}
+    \label{kuramotoop}
+\end{align}
+
+\noindent where $i=\sqrt{-1}$ and $\phi(\vec{\phase})\in[0,2\pi)$ is the resulting polar angle of the summation. Thus $R( \vec{\phase})
+\in [0,1]$ determines the overall macroscopic alignment between phase values. With this definition the equations of motion can be
+re-written as:
+
+\begin{align}
+    \ddt{\phase_j} &= \nfreq_j + \frac{\kc}{N}\sum^{N}_{k}sin(\phase_k - \phase_j) \notag \\
+                   &= \nfreq_j + \kc \operatorname{Im}\left( \frac{1}{N}\sum^{N}_{k} e^{i(\phase_k-\phase_j)} \right) \notag \\
+                   &= \nfreq_j + \kc R(\vec{\phase}) \operatorname{Im}\left( e^{i(\phi(\vec{\phase}) - \phase_j)} \right) \notag \\[18pt]
+    \ddt{\phase_j} &= \nfreq_j + \kc R(\vec{\phase}) \sin ( \phi(\vec{\phase}) - \phase_j )
+    \label{kuramf}
+\end{align}
+
+We see that the equations of motion are now written in terms of the mean-fields $R(\vec{\phase})$ and $\phi(\vec{\phase})$. In
+particular, if the fields are constant ($\ddt{R} = \ddt{\phi}=0$) than the equations of motion become decoupled and can be solved.
+
+The collective oscillations observed in real systems tells us that the macroscopic steady-state solution of stable synchronized
+oscillations should indeed have constant $R>0$ while $\phi$ increases linearly with time (the system rotates synchronously with
+constant phase speed).  Thus, $\phi=\Omega t$ and both $R$ and $\Omega$ are constant. Even though $\phi$ itself is not constant, it
+turns out that the rotational symmetry of equation~(\ref{kuramf}) allows us to decouple the equations by changing into a rotating frame
+of reference with the following substitution:
+
+\begin{align}
+    \forall j: \quad \phase_j(t) &= \phaserot_j(t) + \Omega t \notag\\
+    &\Downarrow \notag\\
+    \ddt{\phaserot_j} + \Omega &= \nfreq_j - \kc R \sin ( \phaserot_j ) \notag\\[10pt]
+    \ddt{\phaserot_j} &= (\nfreq_j-\Omega) - \kc R \sin ( \phaserot_j )
+    \label{kurarot}
+\end{align}
+
+Another macroscopic behavior observed in nature is the more trivial one, where there is no synchronization at all. In this state the
+phase configuration is evenly distributed amongst all possible values, leading to constant $R=0$, and is also described by
+equation~(\ref{kurarot}). Inspection of this equation shows that when $|\nfreq_j - \Omega| \leq \kc R$ there is some phase value for
+which $\ddt{\phaserot_j}=0$, and thus oscillators become phase-locked when attaining this value. When $|\nfreq_j - \Omega| > \kc R$
+oscillators can never come to a stop since $\ddt{\phase_j} \neq 0$, and will permanently drift. For a synchronized solution we then
+expect two groups of oscillators:
+
+\begin{itemize}
+    \item \textbf{Phase-Locked} $|\nfreq_j - \Omega|\leq \kc R$: A group of oscillators with natural frequencies close enough to
+        $\Omega$ will become phase locked and sync.
+    \item \textbf{Drifting} $|\nfreq_j - \Omega| > \kc R$: Remaining oscillators with frequencies too far from the generated mean-field
+        will remain drifting ahead or behind the synced group.
+\end{itemize}
+
+Since we postulate that $R$ is time independent, self-consistency requires that the phase distribution generated by the drifting
+oscillators must be stationary, otherwise $R$ would not be constant.
+
+\section{Continuous Limit}
+
+In the continuous limit the distribution of oscillators phases can be written as the joint probability distribution in phases
+$\phaserot$ and natural frequencies $\nfreq$ as:
+
+\begin{gather}
+    \phaserot_j, \nfreq_j \to p(\phaserot, \nfreq,t) \qquad \phaserot \in [-\pi, \pi) \qquad \nfreq \in (-\infty, \infty) \notag\\[10pt]
+    \ddt{\phaserot} = (\nfreq - \Omega) - \kc R \sin(\phaserot)
+    \label{eqmotioncontinuous}
+\end{gather}
+
+\noindent The density of oscillators with phase $\phaserot$ is then given by the marginalized distribution:
+
+\begin{align*}
+    n(\phaserot) = \myint_{-\infty}^{\infty} p(\phaserot, \nfreq,t) d\nfreq
+\end{align*}
+
+\noindent which by Bayes' rule gives:
+
+\begin{align*}
+    n(\phaserot) = \myint_{-\infty}^{\infty} p(\phaserot | \nfreq)g(\nfreq) d\nfreq
+\end{align*}
+
+\noindent where $p(\phaserot|\nfreq)$ is the conditional probability distribution that an oscillator with given natural frequency
+$\nfreq$ has phase value $\phaserot \equiv \phaserot(t)$ at time $t$.
+
+By using the subscripts $L$ and $D$ to indicate the \textit{phase-locked} and \textit{drifting} groups, we get the expression for the
+total density:
+
+\begin{gather}
+    n(\phaserot) = n_L(\phaserot) + n_D(\phaserot) \notag\\[10pt]
+    n(\phaserot) = \myint_{|\nfreq - \Omega|\leq \kc R} p_L(\phaserot|\nfreq,t) g(\nfreq) d\nfreq + \myint_{|\nfreq - \Omega| > \kc R} p_D(\phaserot|\nfreq,t) g(\nfreq) d\nfreq
+    \label{density}
+\end{gather}
+
+The conditional probability for the phase-locked group can then be obtained by solving the equation of motion~(\ref{kurarot}), and for
+the drifting group it can be derived by the self-consistency assumption that it must be a stationary distribution in order to have a
+time-independent order parameter.
+
+\section{Phase distribution of phase-locked oscillators}
+
+For the phase locked group we know that for $t \to \infty$, $\ddt{\phaserot}=0$ for some value of $\phaserot^\star$ and $\nfreq$. Thus,
+we solve equation~(\ref{eqmotioncontinuous}) to obtain:
+
+\begin{gather}
+    \phaserot^\star = \arcsin \left( \frac{\nfreq - \Omega}{\kc R} \right) \\[10pt]
+    \phaserot^\star \in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right] \notag
+\end{gather}
+
+Therefore, the conditional distribution of $\phaserot$ given $\nfreq$ is a Dirac delta function centered around $\phaserot^\star$ since
+this is an attractor for all oscillators with natural frequency $\nfreq$.
+
+\begin{gather}
+    \label{lockedprob}
+    p_L(\phaserot | \nfreq) = \delta\left[ \phaserot - \arcsin \left( \frac{\nfreq - \Omega}{\kc R} \right) \right] \\[10pt]
+    \phaserot \in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right] \notag
+\end{gather}
+
+We now perform the left integral in equation~(\ref{density}) to find the density of phase locked oscillators to obtain:
+\begin{align*}
+    n_L(\phaserot) &= \myint_{\Omega - \kc R}^{\Omega + \kc R} \delta\left[ \phaserot - \phaserot^\star \right] g(\nfreq) d\nfreq
+\end{align*}
+
+\noindent but $\nfreq = \Omega + \kc R \sin\phaserot^\star$ and $d\nfreq = \kc R \cos \phaserot^\star d\phaserot^\star$ and thus
+
+\begin{align}
+    n_L(\phaserot) &= \myint_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \delta \left[ \phaserot - \phaserot^\star \right] g(\Omega + \kc R \sin
+    \phaserot^\star) \kc R \cos \phaserot^\star d\phaserot^\star \notag\\[10pt]
+    n_L(\phaserot) &=
+    \begin{cases}
+        g(\Omega + \kc R \sin\phaserot) \kc R \cos\phaserot \quad &|\phaserot| \leq \frac{\pi}{2}\\
+        0 & |\phaserot| > \frac{\pi}{2}
+    \end{cases}
+    \label{densitylocked}
+\end{align}
+
+Equation~(\ref{densitylocked}) shows us that the phase locked oscillators are distributed in the half-moon around the order parameter,
+in accordance to direct simulations of the equations of motion. Since $\phaserot$ values are phase-locked, the probability distribution
+of synchronized oscillators $n_L$ is also time independent, in addition to $n$.
+
+\section{Phase distribution of drifting oscillators}
+
+In order to derive the distribution of phases for drifting oscillators, we start by taking into account the continuity equation applied
+to the conditional distribution of phases. Since the natural frequency for each oscillator is immutable, the conservation of total
+phase should apply individually for each natural frequency $\nfreq$. We show this by taking the fraction of oscillators with phase
+$\phaserot$ in the control interval $[\phaserot, \phaserot + \delta \phaserot ]$ that have natural frequency $\nfreq$, given by the
+integral:
+
+\begin{align}
+    \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot'
+    \label{count}
+\end{align}
+
+By taking the time derivative of~(\ref{count}) we get the total variation of phase inside the control interval. By denoting the
+anti-derivative of $p(\phaserot | \nfreq)$ as $P(\phaserot | \nfreq)$ we have:
+
+\begin{align}
+    \partial_t \left[ \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] &= \partial_t \left[ P(\phaserot + \delta\phaserot | \nfreq) - P(\phaserot | \nfreq) \right] \notag\\
+    &= \frac{\partial P(\phaserot + \delta\phaserot | \nfreq)}{\partial (\phaserot+\delta\phaserot)}\frac{\partial(\phaserot+\delta\phaserot)}{\partial t} - \frac{\partial P(\phaserot | \nfreq)}{\partial\phaserot}\frac{\partial\phaserot}{\partial t} \notag\\[20pt]
+    \partial_t \left[ \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] &= p(\phaserot+\delta\phaserot | \nfreq)\ddt{\phaserot}(\phaserot+\delta\phaserot) - p(\phaserot | \nfreq)\ddt{\phaserot}(\phaserot)
+    \label{control_interval}
+\end{align}
+
+Intuitively, equation equation~(\ref{control_interval}) implies that the rate of change of probability inside the control interval is
+equal to the difference of fluxes at the extremities of the interval. Dividing this expression by $\delta\phaserot$ and taking the
+limit of $\delta\phaserot \to 0^+$ leads us to the continuity equation for the conservation of probability density of oscillators with
+natural frequency $\nfreq$:
+
+\begin{gather}
+    \lim_{\delta\phaserot \to 0^+} \frac{p(\phaserot+\delta\phaserot | \nfreq)\ddt{\phaserot}(\phaserot+\delta\phaserot) - p(\phaserot | \nfreq)\ddt{\phaserot}(\phaserot)}{\delta\phaserot} = \partial_\phaserot \left[ p(\phaserot | \nfreq) \ddt{\phaserot}(\phaserot) \right]  \notag\\
+    \lim_{\delta\phaserot \to 0^+} \partial_t \left[ \frac{1}{\delta\phaserot}\myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] = \partial_t \left[ p(\phaserot | \nfreq) \right] \notag\\[10pt]
+    \partial_t \left[ p(\phaserot | \nfreq) \right] - \partial_\phaserot \left[ p(\phaserot | \nfreq) \ddt{\phaserot}(\phaserot) \right] = 0
+    \label{continuity}
+\end{gather}
+
+We have seen that requiring that the total phase distribution $n(\phaserot)$ be stationary implies that the distribution of
+phase-locked oscillators $n_L(\phaserot)$ is also stationary. But since the distribution of drifting oscillators is given by
+$n_D(\phaserot) = n(\phaserot) - n_L(\phaserot)$, it must also be stationary. Thus we have
+
+\begin{gather}
+    \partial_t [ n_D(\phaserot) ] = 0\notag\\
+    \myint_{|\nfreq - \Omega| > \kc R} \partial_t [ p_D(\phaserot | \nfreq)] g(\nfreq) d\nfreq = 0
+    \label{stationary_drift}
+\end{gather}
+
+Even though there are time-dependent forms for $p_D(\phaserot | \nfreq)$ that could satisfy equation~(\ref{stationary_drift}), the
+assumption that it is indeed stationary ties up with the original assumption about the total density $n$ and the self consistency
+argument, a central point in Kuramoto's original analysis. The condition $\partial_t [p_D(\phaserot | \nfreq)]=0$ for all $\phaserot$
+thus imply, through the continuity equation~(\ref{continuity}), that $\partial_\phaserot [p_D(\phaserot |
+\nfreq)\ddt{\phaserot}(\phaserot)]=0$ and so:
+
+\begin{gather}
+    p(\phaserot | \nfreq) \ddt{\phaserot}(\phaserot) = C(\nfreq) \notag\\
+    \Downarrow \notag\\
+    p_D(\phaserot | \nfreq) = \frac{C(\nfreq)}{(\nfreq - \Omega) - \kc R \sin \phaserot}
+    \label{nD}
+\end{gather}
+
+In order to obtain the total density $n_D(\phaserot)$ we must marginalize the joint distribution $p_D(\nfreq | \nfreq)g(\nfreq)$. In
+order to do that we need to find the value of $C$ as a function of $\nfreq$, $C(\nfreq)$. This can be done by using the normalization
+condition $\int_{-\pi}^{\pi}p_D(\phaserot | \nfreq)d\phaserot=1$ which leads us to:
+
+\begin{align}
+    \frac{1}{C(\nfreq)} &= \myint_{-\pi}^{\pi}\frac{1}{\nfreq - \Omega - \kc R \sin \phaserot}d\phaserot
+    \label{constantC}
+\end{align}
+
+\noindent Using equation~(2.551-3) from the integrals table~\cite{jeffrey2007table} with the condition $|\nfreq-\Omega| > \kc R$ we get
+the solution:
+
+\begin{align}
+    a&=(\nfreq-\Omega) \qquad b=\kc R \notag\\[5pt]
+    f(\phaserot) &= \arctan\frac{a\tan \frac{\phaserot}{2}+b}{\sqrt{a^2-b^2}} \notag\\[5pt]
+    \myint\frac{1}{\pm a-b\sin \phaserot}d\phaserot &= \pm\frac{2}{\sqrt{a^2-b^2}}f(\phaserot) \qquad a^2 > b^2 \notag
+\end{align}
+
+\noindent which is positive for $\nfreq > \Omega + \kc R$ and negative for $\nfreq < \Omega - \kc R$. Substituting back into
+equation~(\ref{constantC}) to obtain $C$ gives:
+
+\begin{align}
+    \frac{1}{C_\pm(\nfreq)} &= \pm\frac{2}{\sqrt{(\nfreq-\Omega)^2 - (\kc R)^2}} \left[ \lim_{\phaserot \to \pi^-} f(\phaserot) - \lim_{\phaserot \to (-\pi)^+} f(\phaserot) \right] \notag\\[10pt]
+    C(\nfreq) &=
+    \begin{cases}
+        -\frac{\sqrt{(\nfreq-\Omega)^2 - (\kc R)^2}}{2\pi} \qquad &\nfreq < \Omega - \kc R \\[10pt]
+        \frac{\sqrt{(\nfreq-\Omega)^2 - (\kc R)^2}}{2\pi} \qquad &\nfreq > \Omega + \kc R
+    \end{cases}
+    \label{constant}
+\end{align}
+
+Now, we use the expression for $C(\nfreq)$ to perform the integration in $\nfreq$ as defined in equation~(\ref{density}):
+
+\begin{align}
+    n_D(\phaserot) &= \myint_{-\infty}^{\Omega - \kc R} p_D(\phaserot | \nfreq)g(\nfreq)d\nfreq +
+                      \myint_{\Omega + \kc R}^{\infty} p_D(\phaserot | \nfreq)g(\nfreq)d\nfreq \notag\\
+                   &= \myint_{-\infty}^{\Omega - \kc R} \frac{C_-(\nfreq)}{(\nfreq - \Omega) - \kc R\sin\phaserot}g(\nfreq)d\nfreq +
+                      \myint_{\Omega + \kc R}^{\infty} \frac{C_+(\nfreq)}{(\nfreq - \Omega) - \kc R\sin\phaserot}g(\nfreq)d\nfreq
+                      \label{driftdensityintermediate}
+\end{align}
+
+To perform this integration we make use of the assumptions that $g$ is symmetric and unimodal. In addition, we also assume that the
+frequency of global oscillations to which the system converges to, $\Omega$, is coincident with the point of symmetry of $g$. Namely,
+we assume that $\Omega = \bar{\nfreq}$. With this assumption, $g(\Omega + x) = g(\Omega - x)$, allowing us to make the following change
+of variables:
+
+Substitute equation~(\ref{constant}) into (\ref{driftdensityintermediate}) and change variables $\nfreq -
+\Omega = -x$ in the first integral and $\nfreq - \Omega = x$ in the second. Finally, we get the expression for the density of drifting
+oscillators:
+
+\begin{align}
+    n_D(\phaserot) = \frac{1}{\pi}\myint_{\kc R}^\infty \frac{x\sqrt{x^2 - (\kc R)^2}}{x^2 - (\kc R\sin\phaserot)^2}g(x+\Omega)dx
+    \label{densitydrift}
+\end{align}
+
+
+\section{Order Parameter}
+
+
+In the rotating frame, the Kuramoto order parameter is given by the integral:
+
+\begin{align}
+    R = &\myint_{-\pi}^{\pi} e^{i\phaserot}n_L(\phaserot)d\phaserot + \myint_{-\pi}^{\pi} e^{i\phaserot}n_D(\phaserot)d\phaserot
+\end{align}
+
+From equation~(\ref{densitydrift}) we see that $n_D(\phaserot - \pi) = n_D(\phaserot)$, but $e^{i(\phaserot - \pi)} = -e^{i\phaserot}$,
+and thus the rightmost integral is zero. The leftmost integral on the RHS can then be written with equation~(\ref{densitylocked}) for
+the phase-locked oscillators.
+
+\begin{align}
+     R = &\kc R\myint_{-\pi/2}^{\pi/2} (\cos \phaserot + i \sin \phaserot ) \cos\phaserot g(\Omega + \kc R \sin\phaserot) d\phaserot
+\end{align}
+
+\noindent but since $g$ is symmetric around $\Omega$ we end up with
+
+\begin{align}
+     R = \kc R\myint_{-\pi/2}^{\pi/2} g(\Omega + \kc R \sin\phaserot) \cos^2\phaserot d\phaserot
+     \label{finalkura}
+\end{align}
+
+Thus, we see that for a fixed value of the coupling strength $\kc$ there is always at least one solution for the order parameter $R$.
+The trivial (disordered) solution is given by $R=0$. If $R$ is non-zero, then we can divide equation~(\ref{finalkura}) to obtain the
+condition for the existence of the solution for that particular $\kc$:
+
+\begin{align}
+     \kc\myint_{-\pi/2}^{\pi/2} g(\Omega + \kc R \sin\phaserot) \cos^2\phaserot d\phaserot = 1
+     \label{kc}
+\end{align}
+
+The simpler case of identical oscillators can be obtained from equation~(\ref{kc}) by setting $g(x) = \delta(x-\Omega)$ which results
+in $\kc_c = 1$ as the critical coupling strength for such a network to attain synchronization.
+
+For a general for of the natural frequency distribution $g$ we can obtain the critical coupling strength $\kc_c$ by expanding its
+Taylor series around $\Omega$ and neglecting terms $\mathcal{O}(R)$ and higher. This is because when $\kc \to \kc_c^+$, then $R \to
+0^+$ and so:
+
+\begin{align}
+    \frac{1}{\kc} &= \myint_{-\pi/2}^{\pi/2} \left[ g(\Omega) + g''(\Omega)\frac{(\kc R \sin\phaserot)^2}{2} + \mathcal{O}(R^3) \right] \cos^2\phaserot d\phaserot \\[10pt]
+    \frac{1}{\kc_c} &= \lim_{R\to0^+} \myint_{-\pi/2}^{\pi/2} \left[ g(\Omega) + g''(\Omega)\frac{(\kc R \sin\phaserot)^2}{2} + \mathcal{O}(R^3) \right] \cos^2\phaserot d\phaserot
+\end{align}
+
+\noindent where $g'(\Omega)=0$ since $g(\Omega)$ is a maximum. Therefore the critical coupling is given by:
+
+\begin{align}
+    \kc_c = \frac{2}{\pi g(\Omega)}
+\end{align}
+
+As the coupling approaches the critical value from above, the order parameter scales as:
+
+\begin{align}
+    \frac{1}{\kc} &= \frac{1}{\kc_c} - \frac{\kc_c^2 R^2|g''(\Omega)| }{16} + \cancelto{0}{\mathcal{O}(R^3)} \notag\\
+                  &\Downarrow \notag \\
+    R(\kc) &= \frac{4}{\sqrt{\pi\kc_c^3|g''(\Omega)|}} \sqrt{\frac{\kc - \kc_c}{\kc_c}}
+\end{align}
+
+We see that the order parameter is sensitive to the curvature of $g$ at the maximum, growing ever more rapidly as $g$ becomes narrower.
+In the limit of identical oscillators, and the order parameter becomes discontinuous at the transition.
+

@@ -8,50 +8,56 @@
 % ------------------------------------------------------------------------
 
 \documentclass[
-	% -- opções da classe memoir --
-	12pt,				% tamanho da fonte
-	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
-	twoside,			% para impressão em frente e verso. Oposto a oneside ---- Este comando ajusta automaticamente as margens
-	a4paper,			% tamanho do papel. 
-	english,			% idioma adicional para hifenização
-%	french,				% idioma adicional para hifenização basta retirar o comentário para utilizar
-%	spanish,			% idioma adicional para hifenização basta retirar o comentário para utilizar
-	brazil				% o último idioma é o principal do documento
-	]{abntex2}
+    % -- opções da classe memoir --
+    12pt,       % tamanho da fonte
+    openright,  % capítulos começam em pág ímpar (insere página vazia caso preciso)
+    twoside,    % para impressão em frente e verso. Oposto a oneside ---- Este comando ajusta automaticamente as margens
+    a4paper,    % tamanho do papel. 
+%   brazil,     % idioma adicional para hifenização
+    english     % o último idioma é o principal do documento
+    ]{abntex2}
 
 % ---
-% Pacotes básicos 
+% Pacotes básicos
 % ---
-\usepackage{lmodern}			% Usa a fonte Latin Modern			
-\usepackage[T1]{fontenc}			% Selecao de codigos de fonte.
-\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
-\usepackage{indentfirst}			% Indenta o primeiro parágrafo de cada seção.
-\usepackage{color}				% Controle das cores
-\usepackage{graphicx}			% Inclusão de gráficos
-\usepackage{microtype} 			% para melhorias de justificação
-\usepackage{relsize}				% usado para definir tamanho de fontes no sumário
+\usepackage{lmodern}            % Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}        % Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}     % Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}        % Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}              % Controle das cores
+\usepackage{graphicx}           % Inclusão de gráficos
+\usepackage{microtype}          % para melhorias de justificação
+\usepackage{relsize}            % usado para definir tamanho de fontes no sumário
 % ---
 
 % ---
 % Pacotes úteis 
 % ---
-\usepackage[final]{pdfpages}		% Para incluir arquivos pdf externos
-\usepackage{amsmath,amssymb,amsthm}	% Pacote para melhorar apresentação de fórmulas matemáticas, símbolos e teoremas, respectivamente	
-\usepackage{pdflscape} 		% Pacote para adicionar páginas em formato paisagem
-\usepackage{multirow}			% Permite criar céluas com várias colunas ou linhas em tabelas
-\usepackage{adjustbox}			% Pacote para ajustar a largura e altura de objetos como tabelas
-%\usepackage{imakeidx}			% Gera o índice
+\usepackage[final]{pdfpages}        % Para incluir arquivos pdf externos
+\usepackage{amsmath,amssymb,amsthm,mathtools} % Pacote para melhorar apresentação de fórmulas matemáticas, símbolos e teoremas, respectivamente
+\usepackage{bm}                     % Símbolos matemáticos em negrito
+\usepackage{pdflscape}              % Pacote para adicionar páginas em formato paisagem
+\usepackage{multirow}               % Permite criar céluas com várias colunas ou linhas em tabelas
+\usepackage{adjustbox}              % Pacote para ajustar a largura e altura de objetos como tabelas
+\usepackage[makeroom]{cancel}
+%\usepackage{imakeidx}              % Gera o índice
+
+% ---
+\usepackage{chngcntr}
+\counterwithout{equation}{section} % undo numbering system provided by phstyle.cls
+\counterwithin{equation}{chapter}  % implement desired numbering system
 % ---
 
-\usepackage{lipsum}	 % pacote usado para gerar os textos dos apêndices e anexos
+\usepackage{lipsum}  % pacote usado para gerar os textos dos apêndices e anexos
 
 % ---
 % Pacotes de citações
 % ---
-\usepackage[brazilian,hyperpageref]{backref}	 % Inclui um link nas referências para a página onde o documento foi citado.
+%\usepackage[brazilian,hyperpageref]{backref}  % Inclui um link nas referências para a página onde o documento foi citado.
+\usepackage[hyperpageref]{backref}
 \usepackage{cite}
 \usepackage[fixlanguage]{babelbib}
-\selectbiblanguage{brazil}
+%\selectbiblanguage{english}
 
 
 % --- 
@@ -61,18 +67,18 @@
 % ---
 % Configurações do pacote backref
 % Usado sem a opção hyperpageref de backref
-\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+\renewcommand{\backrefpagesname}{Cited on page(s):~}
 % Texto padrão antes do número das páginas
 \renewcommand{\backref}{}
 % Define os textos da citação
 \renewcommand*{\backrefalt}[4]{
-	\ifcase #1 %
-		Nenhuma citação no texto.%
-	\or
-		Citado na página #2.%
-	\else
-		Citado #1 vezes nas páginas #2.%
-	\fi}%
+    \ifcase #1 %
+        No citation in text.%
+    \or
+        Cited in page #2.%
+    \else
+    Cited #1 time(s) in pages #2.%
+    \fi}%
 % ---
 
 % ---
@@ -89,18 +95,18 @@
 % informações do PDF
 \makeatletter
 \hypersetup{
-     	%pagebackref=true,
-		pdftitle={\@title}, 
-		pdfauthor={\@author},
-    	pdfsubject={\imprimirpreambulo},
-	    pdfcreator={LaTeX with abnTeX2},
-		pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
-		colorlinks=false,       		% false: boxed links; true: colored links
-    	linkcolor=blue,          	% color of internal links
-    	citecolor=blue,        		% color of links to bibliography
-    	filecolor=magenta,      		% color of file links
-		urlcolor=blue,
-		bookmarksdepth=4
+    %pagebackref=true,
+    pdftitle={Synchronization of Phase Oscillators}, 
+    pdfauthor={Kevin Liu Rodrigues},
+    pdfsubject={\imprimirpreambulo},
+    pdfcreator={LaTeX with abnTeX2},
+    pdfkeywords={oscilador}{oscillator}{fisica}{physics}{tese}{thesis}{abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
+    colorlinks=true,                   % false: boxed links; true: colored links
+    linkcolor=blue,                    % color of internal links
+    citecolor=blue,                    % color of links to bibliography
+    filecolor=magenta,                 % color of file links
+    urlcolor=blue,
+    bookmarksdepth=4
 }
 \makeatother
 % --- 
@@ -120,6 +126,21 @@
 % ---
 %\makeindex
 % ---
+
+% ---
+% Comandos
+% ---
+\newcommand{\myint}{\int}                 % integral style
+\newcommand{\ddt}[1]{\dot{#1}}            % time derivative style
+\newcommand{\phase}{\theta}               % oscillator phase notation
+\newcommand{\phaserot}{\varphi}           % oscillator phase notation in rotating frame
+\newcommand{\nfreq}{\omega}               % oscillator natural frequency notation
+\renewcommand{\vec}[1]{\bm{#1}}           % vector style
+\newcommand{\kc}{K}                       % Kuramoto coupling notation
+\newcommand*{\chirdef}{N\left[ \left< \left< |v| \right>_t^2 \right>_s - \left< \left< |v| \right>_t \right>_s^2 \right]}
+\newcommand*{\chipsidef}{N\left[ \left< \left< |\psi| \right>_t^2 \right>_s - \left< \left< |\psi| \right>_t \right>_s^2 \right]}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 % ----
 % Início do documento
@@ -143,8 +164,11 @@
 % ----------------------------------------------------------
 \textual
 
-\include{tex/cap1}
-\include{tex/cap2}
+\include{tex/introduction}
+\include{tex/chapter1}
+\include{tex/chapter2}
+\include{tex/chapter3}
+\include{tex/demo}
 
 
 % ----------------------------------------------------------
@@ -157,7 +181,7 @@
 % Referências bibliográficas
 % ----------------------------------------------------------
 \bibliographystyle{babunsrt}
-\bibliography{tex/references}
+\bibliography{tex/references.bib}
 
 \include{tex/pos-textual}
 
