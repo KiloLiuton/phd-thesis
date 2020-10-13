@@ -52,7 +52,7 @@ To generate a small-world network, the rewiring procedure considers each existin
 clockwise vertex of this edge by a randomly selected node in the network. If the randomly selected node would create an already
 existing edge or a self-connection, no action is performed.
 
-\section{Mean field}
+\section{Deriving the local average field}
 
 By defining the fractions in the exponent of equation~(\ref{rate}) at a fixed time $t$ as
 
@@ -60,32 +60,43 @@ By defining the fractions in the exponent of equation~(\ref{rate}) at a fixed ti
     \nu^x_j(t) \equiv \frac{n^x_j(t)}{n^x(t)}
 \end{equation}
 
-\noindent the transition rates are now written as $\gamma^x_j(t) = g^x\exp\left[ a(\nu^x_{j+1}(t) - \nu^x_j(t)) \right]$. The quantity $\nu^x_j$
+\noindent the transition rates are now written as
+
+\begin{align}
+    \gamma^x_j(t) = g^x\exp\left[ a(\nu^x_{j+1}(t) - \nu^x_j(t)) \right]
+    \label{mfrate}
+\end{align}
+
+The quantity $\nu^x_j$
 describes the fraction of sites which are connected to node $x$ that are in state $j$ and thus also satisfies
 $\nu^x_1+\nu^x_2+\nu^x_3=1$.
 
-In the continuous limit, the average values of $\nu$ will dictate the dynamics. This average is taken over independent realizations of
-the dynamics on different graphs produced by the rewiring process. We define the average value of $\nu$ as
+In the continuous limit, the average values of $\nu$ will dictate the dynamics. This was done previously by substituting $\nu$ in
+equation (\ref{mfrate}) by its average \cite{escaff2014arrays}, which is taken over independent realizations of the dynamics. The
+average-field rate of transition becomes:
 
 \begin{align}
-    \left< \nu^x_j(t) \right> = \frac{\left< n^x_j(t) \right>}{\left< n^x(t) \right>}
-    \label{nuMF}
-\end{align}
-
-\noindent where the average is taken over independent realizations and \textit{not} over time. With this definition we can write the
-mean field transition rates
-
-\begin{align}
-    \left< \gamma^x_j \right> = g^x \exp \left[ a \left( \left< \nu^x_{j+1} \right> - \left< \nu^x_j \right> \right) \right]
+    %\left< \gamma^x_j \right> = g^x \exp \left[ a \left( \left< \nu^x_{j+1} \right> - \left< \nu^x_j \right> \right) \right]
+    \gamma^x_{j,MF} = g^x \exp \left[ a \left( \left< \nu^x_{j+1} \right> - \left< \nu^x_j \right> \right) \right]
     \label{gammaMF}
 \end{align}
 
-\noindent where we have omitted the explicit time dependence. The equations of motion \ref{eqmotion} for the probabilities in the MF
-become
+For regular rings the number of neighbors of every site is two times the interaction range ($n^x = 2K \quad \forall x$), but since we
+are now dealing with rewired networks, $n^x$ becomes a random variable which assumes different values at each site with respect to the
+different realizations over which we take the averages. Thus we proceed in the same way and define the mean field value of $\nu$ by
+replacing the random variables $\nu^x$ and $\nu^x_j$ by their averages:
 
 \begin{align}
-    \ddt{p^x_1} &= \left< \gamma^x_3 \right> (1-p^x_1-p^x_1) - \left< \gamma^x_1 \right> p^x_1 \notag \\
-    \ddt{p^x_2} &= \left< \gamma^x_1 \right>  p^x_1 - \left< \gamma^x_2 \right> p^x_2
+    \nu^x_{j,MF}(t) = \frac{\left< n^x_j(t) \right>}{\left< n^x(t) \right>}
+    \label{nuMF}
+\end{align}
+
+\noindent where the average is taken over independent realizations and \textit{not} over time. The master equations for the mean field
+are obtained by replacing the instantaneous rates of transition by their average-field values in (\ref{eqmotion}).
+
+\begin{align}
+    \ddt{p^x_1} &= \gamma^x_{3,MF} (1-p^x_1-p^x_1) - \gamma^x_{1,MF} p^x_1 \notag \\
+    \ddt{p^x_2} &= \gamma^x_{1,MF}  p^x_1 - \gamma^x_{2,MF} p^x_2
     \label{eqmotionMF}
 \end{align}
 
@@ -120,17 +131,53 @@ j'\end{cases}$, and thus $\left< \nu^x_j(t) \right>$ becomes
     \left< \nu^x_j(t) \right> &= \frac{\sum\limits_{x'=1}^N\left< D_{xx'}\right>\left<\delta_{jj'}(t)\right>}{\sum\limits_{x'=1}^N\left< D_{xx'} \right>}
 \end{align}
 
-\noindent In order to solve the proposed MF we assume $\left< D_{xx'}\delta_{jj'}(t)\right> = \left<
-D_{xx'}\right>\left<\delta_{jj'}(t)\right>$. In words this means the state of site $x'$ depends on the state of site $x$ regardless of
-them being coupled or not. This is more accurate when the probability of rewiring $p$ is approximately zero, which is true for a large
-number of networks in the small-world regime, as seen in figure~\ref{fig:small-world} of chapter~\ref{chap:article}. When $p=0$ we can
-restrict the summation over the connected sites and recover the MF proposed by Escaff \textit{et al.}~\cite{escaff2014arrays}, making
+\noindent Here we have assumed $\left< D_{xx'}\delta_{jj'}(t)\right> = \left< D_{xx'}\right>\left<\delta_{jj'}(t)\right>$ in order to
+solve the proposed MF approximation. In words this means the state of site $x'$ depends on the state of site $x$ regardless of them
+being coupled or not, but the strength of the coupling is modulated by the ``average connectivity'' value $\left< D_{xx'} \right>$.
+This approximation becomes more accurate when the probability of rewiring $p$ is approaches zero, which is true for a large number of
+networks in the small-world regime, as seen in figure~\ref{fig:small-world} of chapter~\ref{chap:article}. When $p=0$ we can restrict
+the summation over the connected sites and recover the MF proposed by Escaff \textit{et al.}~\cite{escaff2014arrays}, making
 $\delta_{jj'}$ truly independent from $D_{xx'}$.
 
-The quantity $\left< \delta_{jj'}(t) \right>$ can be identified with the probability of finding the site at $x'$ in state $j$ at time
-$t$, which we write as $P^{x'}_j(t)$. This probability is the central point of the mean-field
+The average $\left< \delta_{jj'}(t) \right>$ can now be identified with the probability of finding the site at $x'$ in state $j$ at
+time $t$: $\left< \delta_{jj'}(t) \right> \equiv p^{x'}_j(t)$, and we are left with the task of calculating $\left< D_{xx'} \right>$.
+In order to do this, we need a detailed description of the rewiring algorithm, which will ultimately dictate the connectivity of the
+final graph. 
+
+\subsection{Rewiring algorithm}
+
+Arrange $N$ nodes in a circle and for each one connect it with an edge to the next $K$ clockwise nearest neighbors. Choose a starting
+point and consider the edge to the \text{first} clockwise nearest neighbor. With probability $p$, swap the clockwise node that
+constitutes this edge for a uniformly selected node on the entire network, except if the selected node is itself or if there is already
+an edge between the new pair. Repeat this process for all the first clockwise nearest neighbors, and than go back to the starting
+point. Repeat the process for all \textit{second} nearest neighbors this time, and than the \textit{third} and so on, until all the
+$NK$ initial edges have been considered exactly once.
+
+Let $d_{xx'}$ denote the distance between nodes $x$ and $x'$ in the one dimensional chain as illustrated in
+figure~\ref{fig:ring-distance}. To calculate the average values $\left< D_{xx'} \right>$ we consider the two cases: \textbf{case
+}$\mathbf{d_{xx'} \leq K}$ and \textbf{case} $\mathbf{d_{xx'} > K}$. If the initial distance between two nodes is less than $K$, than
+by construction of the initial graph they start out connected. The condition that this connection exists in the final graph is that it
+was never removed in the first place, or that it was removed and than subsequently reformed. Sites with $d_{xx'}>K$ start disconnected,
+and thus the condition for it being present in the final graph is that some of it's vertices got rewired that way. With a little
+deliberation on the rewiring procedure, one will agree that if the process produces any edge, then it cannot be broken in any of the
+subsequent steps. Thus, the occurrence of any forming event between two nodes guarantees that connection will be present in the final
+graph. Conversely, if an initial connection is not broken, it will remain on the final graph.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.40\textwidth]{fig/ring-distance.png}
+    \caption{\label{fig:ring-distance}
+        Definition of distance $d_{xx'}$ between sites $x$ and $x'$. The distance $d_{xx'}$ is considered on the one dimensional chain
+        and does not take into account the connections that determine the coupling. This can be imagined as a periodic one dimensional
+        system with interaction range $K$, which determines the coupling for the dynamics. Note that the periodicity leads to the
+        distance between $x=0$ and $x'=12$ being 4 and \textit{not} $12-0=12$.
+    }
+\end{figure}
+
+\subsection{Case $\mathbf{d_{xx'}>K}$:}
+
+
 
 \begin{align}
-    \left< \frac{D_{xx'}}{\sum_{x''=1}^ND_{xx''}}\delta_{jj'} \right> &= \left< \frac{D_{xx'}}{\sum_{x''=1}^ND_{xx''}} \right>\left< \delta_{jj'} \right> \notag\\[8pt]
-    &= \left< \frac{D_{xx'}}{\sum_{x''=1}^ND_{xx''}} \right> P^{x'}_j
+    x
 \end{align}
