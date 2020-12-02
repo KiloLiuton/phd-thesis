@@ -1,5 +1,22 @@
 \chapter{Mean field theory for small-world networks}
 
+\begin{table}[ht] 
+    \centering
+    \caption{Definitions table}
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{|c|c|}
+        \hline
+    $N$ & Integer system size \\ \hline 
+    $K$ & Integer interaction range \\ \hline 
+    $a$ & Real coupling strength, $a\geq 0$\\ \hline 
+    $\alpha$ & Interaction range as a fraction of system size $\alpha\equiv K/N$\\ \hline 
+    $p$ & Probability that the Watts-Strogatz algorithm will try to rewire a connection\\ \hline 
+    $\gamma_j^x(t) | \gamma_j(x,t)$ & Transition rate out of state $j$ at position $x$ and time $t$\\ \hline 
+    $P_j^x(t) | P_j(x,t)$ & Probability that an oscillator at $x$ is in state $j$ at time $t$\\ \hline 
+    \end{tabular}%
+    }
+\end{table}
+
 %The previous chapter focused mainly on simulation results for ring-lattices and small-world networks.
 
 In this chapter we develop a mean field (MF) theory for the coupled oscillator dynamics with three discrete phase states on a system of
@@ -433,11 +450,10 @@ of $\nu^x_j$:
 
 The set of $2N$ master equations (\ref{eq:motion}) that describe the time evolution of probabilities reduce to just 2 equations for the
 now spatially distributed probability $P_j(x,t)$. Again we have the condition $P_1(x,t) + P_2(x,t) + P_3(x,t)=1$ so that we only need
-two equations to describe the probabilities of all three states.
+two equations to describe the probabilities of all three states. The master equation for state $j$ is thus written as
 
 \begin{align}
-    \ddt{P_1}(x,t) &= \gamma_3(x,t)\left(1-P_1(x,t)-P_2(x,t)\right) - \gamma_1(x,t)P_1(x,t) & \notag\\
-    \ddt{P_2}(x,t) &= \gamma_1(x,t)P_1(x,t) - \gamma_2(x,t)P_2(x,t) & x\in[0,1)
+    \ddt{P_j}(x,t) &= \gamma_{j-1}(x,t)P_{j-1}(x,t) - \gamma_j(x,t)P_j(x,t) & x\in[0,1)
     \label{eq:motioncontinuous}
 \end{align}
 
@@ -468,6 +484,7 @@ perturbation, which we modulate by some arbitrary parameter $\epsilon_j$:
 
 \begin{align}
     P_j(x,t) = 1/3 + \epsilon_j e^{ikx + \lambda t}
+    \label{eq:solperturb}
 \end{align}
 
 \noindent where $i=\sqrt{-1}$, and $k\in\mathbb{R}$ and $\lambda\in\mathbb{C}$ are the spatial and temporal angular frequencies of the
@@ -477,7 +494,7 @@ conditions on the model parameters that allow for $\operatorname{Re}[\lambda]>0$
 would increase as $t$ grows. Thus, for wave solutions we have
 
 \begin{align}
-    \ddt{P}_j(x,t) &= \lambda e^{ikx + \lambda t}
+    \ddt{P}_j(x,t) &= \lambda\epsilon_j e^{ikx + \lambda t}
     \label{eq:dpperturb}
 \end{align}
 
@@ -486,8 +503,8 @@ get:
 
 \begin{align}
     \nu_j(x,t) &= \frac{p}{3} + p\epsilon_je^{\lambda t}\cancelto{0}{\int_0^1 e^{ikx'}dx'} +
-    \frac{1-p}{3} + \frac{1-p}{2\alpha} \epsilon_je^{\lambda t}\int_{x-\alpha}^{x+\alpha}e^{ikx'}dx' \notag\\[10pt]
-    &= \frac{1}{3} + (1-p)\frac{\sin k\alpha}{k\alpha}\epsilon_je^{ikx+\lambda t}
+    \frac{1-p}{3} + \frac{1-p}{2\alpha} \epsilon_je^{\lambda t}\int_{x-\alpha}^{x+\alpha}e^{ikx'}dx' \notag\\[14pt]
+    \nu_j(x,t) &= \frac{1}{3} + (1-p)\frac{\sin k\alpha}{k\alpha}\epsilon_je^{ikx+\lambda t}
     \label{eq:nuperturb}
 \end{align}
 
@@ -496,4 +513,13 @@ solution:
 
 \begin{align}
     \gamma_j(x,t) &= g(x)\exp\left[ a(1-p)\frac{\sin k\alpha}{k\alpha}(\epsilon_{j-1}-\epsilon_j)e^{ikx+\lambda t} \right]
+    \label{eq:rateperturb}
+\end{align}
+
+Substituting equations~(\ref{eq:solperturb}),(\ref{eq:dpperturb}) and (\ref{eq:rateperturb}) into the master
+equations~(\ref{eq:motioncontinuous}) yields the conditions under which the wave solution may exist. We introduce here the notations
+$W\equiv ikx + \lambda t$ and $\hat{a}\equiv a(1-p)\frac{\sin k\alpha}{k\alpha}$ for brevity.
+
+\begin{align}
+    \lambda \epsilon_1 e^W = 
 \end{align}
