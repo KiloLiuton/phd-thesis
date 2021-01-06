@@ -553,7 +553,7 @@ Equation (\ref{eq:lambdacontinuous}) expresses the dispersion relation $\lambda(
 depends on position. If the natural frequencies were to form some macroscopic pattern throughout $x$, this analysis would predict local
 changes to the wave frequency as it travels around the system. But because $\omega \sim g$ for some symmetrical unimodal distribution
 $g$, in the continuous limit the speed-ups and slow-downs cancel out and the result is dominated by the average value of $g$ denoted by
-$\bar{g}$.
+$\bar{g}$. This can be seen from the fact that, for any positive value $\delta x$ we have:
 
 \begin{align}
     \int_x^{x+\delta x} \omega(x')dx' &= \bar{g} \notag\\
@@ -561,7 +561,8 @@ $\bar{g}$.
     \int_x^{x+\delta x} \lambda(k,x')dx' &= \bar{g} \left( \hat{a} - \frac{3}{2} \pm \frac{1}{2}i\sqrt{3} \right)
 \end{align}
 
-The perturbed solutions for sufficiently small values of $\epsilon_j$ are then written as
+And therefore, the local value of $\lambda$ for an arbitrarily small neighborhood around $x$, for any $x$, is given by the average
+value $\bar{g}$. The perturbed solutions for sufficiently small values of $\epsilon_j$ are then written as
 
 \begin{align}
     P_j(x,t) = \frac{1}{3} + \epsilon_j e^{\left( \hat{a} - \frac{3}{2} \right)\bar{g}t} e^{i\left(kx + \frac{\sqrt{3}}{2}\bar{g}t\right)}
@@ -570,8 +571,8 @@ The perturbed solutions for sufficiently small values of $\epsilon_j$ are then w
 \noindent where we have factored out $\operatorname{Re}(\lambda)$ to explicitly show the time dependence of the amplitude of the
 waveform. If this quantity is positive we expect a steady state of the form of a travelling wave. If it is negative than the
 perturbation will die out and the quiescent steady state will be reached. The fact that the dynamics only allow for one directional
-transitions (namely from $j$ to $j+1$ cycling back to 1 when $j=3$) means $\bar{g}>0$ always, and therefore a positive value of
-$\operatorname{Re}(\lambda)$ implies that $\hat{a} > 3/2$ which is:
+transitions (namely from $j$ to $j+1$ cycling back to 1 when $j=3$) means $\bar{g}>0$ always, and therefore
+$\operatorname{Re}(\lambda)>0$ implies $\hat{a} > 3/2$ which is:
 
 \begin{align}
     a(1-p)\frac{\sin(2\pi m\alpha)}{2\pi m\alpha} > \frac{3}{2}
@@ -579,15 +580,12 @@ $\operatorname{Re}(\lambda)$ implies that $\hat{a} > 3/2$ which is:
 \end{align}
 
 \noindent where $m$ is an integer and $\alpha$ is the interaction range expressed as a fraction of system size. The derivation of
-equation~(\ref{eq:nuperturb}) assumes $m\neq 0$ for the global integral to vanish, and thus the globally synchronized For a given value
-of $\alpha$ and some wave number $m_c$, the critical value for the coupling is given by setting an equality in
-equation~(\ref{eq:lambdapos}):
+equation~(\ref{eq:nuperturb}) assumes $m\neq 0$ in order for the left integral to vanish, and thus the globally synchronized steady
+state ($m=0$) is not described by equation~(\ref{eq:lambdapos}). For a given value of $\alpha$ and some wave number $m$, the critical
+value for the coupling is given by setting an equality in equation~(\ref{eq:lambdapos}):
 
 \begin{align}
-    a_c = \frac{3}{2}\frac{1}{(1-p)}\frac{(2\pi m_c\alpha)}{\sin(2\pi m_c\alpha)}
+    a_c = \frac{3}{2}\frac{1}{(1-p)}\frac{(2\pi m\alpha)}{\sin(2\pi m\alpha)}
 \end{align}
 
-For constant $\alpha >0$ we can set $m_c=0$ with $\lim_{x\to 0}(x/\sin x) = 1$ and obtain the critical coupling for the globally
-synchronized state. In this case the wavelength spans the whole system, leading to $P_j(t)=1/3+\epsilon_je^{\lambda t}$. The critical
-coupling becomes independent of $\alpha$ and differs from the complete graph case by a factor of $1/(1-p)$:
-$a_c(m_c=0)=\frac{3}{2}\frac{1}{(1-p)}$
+By fixing $\alpha$, we can get a sequence of critical values for $a_c$ by setting $m=1,2,3,...$. These critical values
