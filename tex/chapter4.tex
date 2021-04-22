@@ -1,5 +1,17 @@
-\chapter{Simulational behavior and results}
-\label{chap:simulations}
+\chapter{Simulation behavior and results}
+\label{chap:simulation}
+
+\section{Simulation methods}
+
+The procedure to simulate the dynamics described by the discrete master equations \ref{eq:motion} starts with some arbitrary base graph
+that defines the coupling between oscillators. Each node in the graph represents an oscillator while the edges represent coupling with
+constant strength $a$. The next step is giving every oscillator an initial phase. Since there are only three phase values, each one is
+encoded as a number from 0 to 2: $0 \rightarrow 0$, $\pi/3 \rightarrow 1$ and $2*\pi/3 \rightarrow 2$.
+
+Given a graph
+We simulate the dynamics described by the discrete master equations \ref{eq:motion} by performing a sequential update on one oscillator
+at a time. 
+
 
 \section{Critical couplings on small-world networks}
 
