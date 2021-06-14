@@ -7,20 +7,23 @@ $N$ oscillators coupled in small-world networks as described by the Watts-Stroga
 re-stating the dynamic rules, and then proceed to define the mean field and the continuous limit.
 
 \begin{table}[ht] 
-    \centering
-    \caption{Definitions}
-    \resizebox{\linewidth}{!}{%
-    \begin{tabular}{|c|l|}
-        \hline
-    $N$ & Integer system size \\ \hline 
-    $K$ & Integer interaction range \\ \hline 
-    $a$ & Real coupling strength, $a\geq 0$\\ \hline 
-    $\alpha$ & Interaction range as a fraction of system size $\alpha\equiv K/N$\\ \hline 
-    $p$ & Rewiring probability\\ \hline 
-    $\gamma_j^x(t) | \gamma_j(x,t)$ & Transition rate out of state $j$ at position $x$ and time $t$\\ \hline 
-    $P_j^x(t) | P_j(x,t)$ & Probability that an oscillator at $x$ is in state $j$ at time $t$\\ \hline 
-    \end{tabular}%
-    }
+  \centering
+  \caption{Definitions}
+  \resizebox{\linewidth}{!}{%
+  \bgroup
+  \def\arraystretch{1.4}  % increase row padding
+  \begin{tabular}{|c|l|}
+    \hline
+  $N$ & Integer system size \\ \hline 
+  $K$ & Integer interaction range \\ \hline 
+  $a$ & Real coupling strength, $a\geq 0$\\ \hline 
+  $\alpha$ & Interaction range as a fraction of system size $\alpha\equiv K/N$\\ \hline 
+  $p$ & Rewiring probability\\ \hline 
+  $\gamma_j^x(t) | \gamma_j(x,t)$ & Transition rate out of state $j$ at position $x$ and time $t$\\ \hline 
+  $P_j^x(t) | P_j(x,t)$ & Probability that an oscillator at $x$ is in state $j$ at time $t$\\ \hline 
+  \end{tabular}%
+  \egroup
+  }
 \end{table}
 
 An oscillator is described by its discrete phase state, which can be imagined as a clock hand which abruptly jumps from noon to 4pm,
@@ -34,16 +37,16 @@ state from 1 to 3. Given a graph in which nodes represent phase oscillators labe
 its phase value
 
 \begin{align}
-    \phi^x = 2\pi (j-1)/3 \\
-    j \in \{1,2,3\} \notag
+  \phi^x = 2\pi (j-1)/3 \\
+  j \in \{1,2,3\} \notag
 \end{align}
 
 \noindent where $j\in\{1,2,3\}$ is the state of unit $x$. Since transitions can only occur in one direction, the stochastic rate of
 transition from $j$ to $j+1$ is written just as $\gamma^x_j$, and its behavior is chosen to be of an exponential form:
 
 \begin{equation}
-    \gamma^x_j(t) = \omega^x\exp\left[ a\frac{n^x_{j+1}(t) - n^x_j(t)}{n^x} \right] \qquad x=1,\dots, N
-    \label{rate}
+  \gamma^x_j(t) = \omega^x\exp\left[ a\frac{n^x_{j+1}(t) - n^x_j(t)}{n^x} \right] \qquad x=1,\dots, N
+  \label{rate}
 \end{equation}
 
 \noindent where $\omega^x$ is its natural (uncoupled) frequency, $n^x_j(t)$ is the count of how many of its neighbors are in state $j$,
@@ -54,9 +57,9 @@ possible states we have the constraints $P_1^x(t)+P_2^x(t)+P_3^x(t)=1$ for all $
 be written in terms of the transition rates $\gamma^x_j(t)$, giving us $2N$ equations of motion:
 
 \begin{align}
-    \ddt{p}^x_1(t) &= \gamma^x_3(t)(1 - P_1^x(t) - P_2^x(t)) - \gamma^x_1(t) P_1^x(t) & \notag\\
-    \ddt{p}^x_2(t) &= \gamma^x_1(t)P_1^x(t) - \gamma^x_2(t) P_2^x(t) &x=1,\dots,N
-    \label{eq:motion}
+  \ddt{p}^x_1(t) &= \gamma^x_3(t)(1 - P_1^x(t) - P_2^x(t)) - \gamma^x_1(t) P_1^x(t) & \notag\\
+  \ddt{p}^x_2(t) &= \gamma^x_1(t)P_1^x(t) - \gamma^x_2(t) P_2^x(t) &x=1,\dots,N
+  \label{eq:motion}
 \end{align}
 
 \noindent The first terms in the RHS of (\ref{eq:motion}) represent the fluxes of probability from oscillators in the previous state,
@@ -68,192 +71,200 @@ lattices and complete graphs as well as regular ring graphs \cite{Wood06a,assis2
 Here we start by focusing on ring lattices, which will be the starting point for generating small-world networks. Ring lattices are
 constructed by arranging $N$ oscillators in a circle, and then for each unit, adding $K$ clock-wise connections to the next $K$ units
 in the circle, resulting in a circular shape with $NK$ total connections. The result of this process for $N=12$ and $K=2$ is shown in
-figure~\ref{fig:ring} of chapter~\ref{chap:article}, as well as for $N=16$, $K=2$ in figure~\ref{fig:ring-distance}.
+figure~\ref{fig:ring} of chapter~\ref{chap:article}, as well as for $N=16$, $K=2$ in figure~\ref{fig:ring-distance} right.
 
-To generate a small-world network from a ring graph we perform a \textit{rewiring} procedure. The latter visits each existing
-connection exactly once, and with a probability $p$ it exchanges the clockwise vertex of this connection for a randomly selected node
-in the network, avoiding duplicate connections or self connections. This will be described in detail when deriving the MF approximation
-of small-world networks.
+To generate a small-world network from a ring graph we perform a \textit{rewiring} procedure. It visits each existing connection
+exactly once, and with a probability $p$ exchanges the clockwise vertex of this connection for a randomly selected node in the network,
+avoiding duplicate connections or self connections. This will be described in detail when deriving the MF approximation of small-world
+networks.
 
 \section{The local average field in the discrete case}
 
-By defining the fractions in the exponent of equation~(\ref{rate}) at a fixed time $t$ as
+To define the local average field, we introduce a \textit{local order parameter} $\nu$ identified by the fractions in the exponent of
+equation~(\ref{rate}) at a fixed time $t$. It is a measurement of the synchrony between oscillators which are coupled to the oscillator
+at position $x$.
 
 \begin{equation}
-    \nu^x_j(t) \equiv \frac{n^x_j(t)}{n^x}
+  \nu^x_j(t) \equiv \frac{n^x_j(t)}{n^x}
 \end{equation}
 
 \noindent the transition rates are now written as
 
 \begin{align}
-    \gamma^x_j(t) = \omega^x\exp\left[ a(\nu^x_{j+1}(t) - \nu^x_j(t)) \right]
-    \label{eq:mfrate}
+  \gamma^x_j(t) = \omega^x\exp\left[ a(\nu^x_{j+1}(t) - \nu^x_j(t)) \right]
+  \label{eq:mfrate}
 \end{align}
 
-The quantity $\nu^x_j$ describes the fraction of sites connected to node $x$ that are in state $j$, and thus also satisfies the
+The quantity $\nu^x_j$ describes the fraction of oscillators connected to $x$ that are in state $j$, and thus also satisfies the
 constraint $\nu^x_1+\nu^x_2+\nu^x_3=1$.
 
-In the large-$N$ limit, we model the system behavior by replacing $\nu$ in equation~(\ref{eq:mfrate}) by its average value, since it
-was shown that for the chosen form of the coupling, the variance $Var[\nu]$ decreases as $1/N$ \cite{escaff2014arrays}. This average is
-taken over independent realizations of the dynamics, and thus the mean-field transition rates become:
+In the large-$N$ limit, we model the system behavior by replacing $\nu^x_j$ in equation~(\ref{eq:mfrate}) by its time dependent average
+$\left< \nu^x_j(t) \right>$. When the rewiring probability $p=0$, it was shown that for the chosen form of the coupling the variance
+$Var[\nu^x_j]$ is proportional to $1/N$ \cite{escaff2014arrays}. In the case of small-world networks ($0<p \leq 1$) it is unfeasible to
+explicitly calculate the variance of the local order parameter, but in section~\ref{subsection:justifyapproximations} we develop
+arguments that support the validity of this mean field approximation by performing partial calculations, and in
+chapter~\ref{chap:simulation} we also perform numerical simulations for finite systems.
+
+If fluctuations are small compared to the deterministic drift described by the MF approach the assumptions become better, but a
+quantitative description may suffer from imprecision when compared to simulation results. With this in mind, the MF transition rates
+become:
 
 \begin{align}
-    \gamma^x_{j,MF} = \omega^x \exp \left[ a \left( \left< \nu^x_{j+1} \right> - \left< \nu^x_j \right> \right) \right]
-    \label{gammaMF}
+  \gamma^x_{j,MF} = \omega^x \exp \left[ a \left( \left< \nu^x_{j+1}(t) \right> - \left< \nu^x_j(t) \right> \right) \right]
+  \label{gammaMF}
 \end{align}
 
-For regular rings, the number of neighbors of every site is two times the interaction range ($n^x = 2K \quad \forall x$). When dealing
-with rewired networks, $n^x$ becomes a random variable which may assume different values for different realizations over which we take
-the averages. Thus, proceeding in an analogous way to previous work, we define the MF value of $\nu$ by replacing the random variables
-with their averages:
+For regular rings, the total number of neighbors of every site is fixed, $n^x= 2K$, but when dealing with rewired networks $n^x$
+becomes a random variable which may assume different values in different realizations, making $\left<\nu^x_j(t)\right>$ trickier to
+calculate.
+
+The master equations in the MF are obtained by replacing the instantaneous transition rates in equation~ (\ref{eq:motion}) by their
+mean field values.
 
 \begin{align}
-    \nu^x_{j,MF}(t) = \frac{\left< n^x_j(t) \right>}{\left< n^x \right>}
-    \label{eq:numfdef}
+  \ddt{P_1^x}(t) &= \gamma^x_{3,MF} (1-P_1^x(t)-P_1^x(t)) - \gamma^x_{1,MF} P_1^x(t) \notag \\
+  \ddt{P_2^x}(t) &= \gamma^x_{1,MF}  P_1^x(t) - \gamma^x_{2,MF} P_2^x(t)
+  \label{eq:motionmf}
 \end{align}
 
-\noindent where the average is taken over independent realizations and \textit{not} over time. The master equations for the MF are
-obtained by replacing the instantaneous rates in equation~ (\ref{eq:motion}) by their average values.
+We are left with the task of calculating $\left<\nu^x_j(t)\right>$ in terms of the probabilities $P^x_j(t)$ such that \ref{eq:motionmf}
+is an autonomous system. For that we define the dummy variable $D^{xx'}$, indicating the presence (or absence) of coupling between
+nodes $x$ and $x'$ in a graph.
 
-\begin{align}
-    \ddt{P_1^x}(t) &= \gamma^x_{3,MF} (1-P_1^x(t)-P_1^x(t)) - \gamma^x_{1,MF} P_1^x(t) \notag \\
-    \ddt{P_2^x}(t) &= \gamma^x_{1,MF}  P_1^x(t) - \gamma^x_{2,MF} P_2^x(t)
-    \label{eq:motionmf}
-\end{align}
+\subsection{Mean field value of the local order parameter}
 
-We see that in order to have any hope of solving the set of equations~(\ref{eq:numfdef})~to~(\ref{eq:motionmf}) we must be able to
-calculate the averages of the random variables $n^x$ and $n^x_j(t)$.
+Encoding the presence or absence of coupling by setting $D^{xx'}=1$ and $D^{xx'}=0$ respectively, we can write exact expressions for
+$\nu^x_j(t)$ in the discrete case:
 
-To do that, we define the dummy variable $D_{xx'}$, which indicates the presence (or absence) of coupling between nodes $x$ and $x'$ in
-a graph. With this notation we can write the exact expressions for $n^x$ and $n^x_j(t)$ in the discrete case. Let $D_{xx'}$ be defined
-as
-
-\begin{align}
-    D_{xx'} = 
+\begin{itemize}
+  \item Let $D^{xx'}$ be defined as
+  \begin{align}
+  D^{xx'} = 
     \begin{cases}
-        1 \qquad &\text{if the connection $x$,$x'$ exists}\\
-        0 \qquad &\text{otherwise}
+    1 \qquad &\text{if the connection $x$,$x'$ exists}\\
+    0 \qquad &\text{otherwise}
     \end{cases}
-\end{align}
+  \end{align}
+  \item Let $x$ denote some position in the lattice for which we wish to know the local order parameter value.
+  \item Let $j$ denote the state for which we wish to measure the order parameter for.
+\end{itemize}
 
-\noindent then, if the state of site $x'$ is denoted by $j'$, we can write the following expression for the set of sites that connect
-to $x$:
-
-\begin{align}
-    n^x_j(t) &= \sum\limits_{x'=1}^ND_{xx'}\delta_{jj'}(t) \notag\\[8pt]
-    n^x &= \sum\limits_{x'=1}^ND_{xx'}
-\end{align}
-
-\noindent where $j$ is some arbitrary state for which we chose to measure $\nu^x_j(t)$, and $\delta_{jj'}$ is the usual Kronecker delta
-defined by $\delta_{jj'}=\begin{cases}1 \qquad\text{if}\quad j=j'\\0 \qquad \text{if}\quad j\neq j'\end{cases}$. The average values
-then become
+\noindent Then:
 
 \begin{align}
-    \nu^x_{j,MF}(t) = \frac{\left<n^x_j(t)\right>}{\left<n^x\right>} &= \frac{\sum\limits_{x'=1}^N\left< D_{xx'}\delta_{jj'}(t)\right>}{\sum\limits_{x'=1}^N\left< D_{xx'} \right>}
-    \notag \\[8pt]
-    \nu^x_{j,MF}(t) &= \frac{\sum\limits_{x'=1}^N\left< D_{xx'}\right>\left<\delta_{jj'}(t)\right>}{\sum\limits_{x'=1}^N\left< D_{xx'} \right>}
-    \label{eq:numf}
+  n^x_j(t) &= \sum\limits_{x'=1}^ND^{xx'}\delta(j,j'(t)) \notag\\[8pt]
+  n^x &= \sum\limits_{x'=1}^ND^{xx'}
 \end{align}
 
-\noindent Here we have assumed $\left< D_{xx'}\delta_{jj'}(t)\right> = \left< D_{xx'}\right>\left<\delta_{jj'}(t)\right>$, which in
-words means the state of site $x'$ depends on the state of site $x$ regardless of them being coupled or not, but the strength of the
-coupling is modulated by the ``average connectivity'' value $\left< D_{xx'} \right>$ over the different realizations. This
-approximation becomes more accurate when the probability of rewiring $p$ approaches zero, which is true for a large number of networks
-in the small-world regime, as seen in figure~\ref{fig:small-world} of chapter~\ref{chap:article}. When $p=0$ we can restrict the
-summation over connected sites, from $(x-K)$ to $(x+K)$, recovering the MF proposed by Escaff \textit{et al.}~\cite{escaff2014arrays}
-for regular rings.
+\noindent where $j'$ is the state of the oscillator at position $x'$ at time $t$ and $\delta(j,j'(t))$ is the usual Kronecker delta
+defined by $\delta(j,j')=1$ if $ j=j'$ and $0$ else. The average values then become
 
-The average $\left< \delta_{jj'}(t) \right>$ can now be identified with the probability of finding the site at $x'$ in state $j$ at
-time $t$: $\left< \delta_{jj'}(t) \right> \equiv P_j^{x'}(t)$, and we are left with the task of calculating $\left< D_{xx'} \right>$,
-the probability that the connection between $x$ and $x'$ exists in the final rewired graph.  In order to do this, we need a detailed
-description of the rewiring algorithm, which will ultimately dictate the connectivity of the final graph. 
+\begin{align}
+  \left< \nu^x_j(t) \right> &= \sum_{x'} \left< \frac{D^{xx'}\delta(j,j'(t))}{\sum_{x''}D^{xx''}}
+  \right> \notag \\[8pt]
+  \left< \nu^x_j(t) \right> &= \sum_{x'} \left< \frac{D^{xx'}}{\sum_{x''}D^{xx''}}\right>\left<\delta(j,j'(t)) \right>
+  \label{eq:numf}
+\end{align}
+
+\noindent Equation~(\ref{eq:numf}) introduces the major MF approximation, where $\delta(j,j'(t))$ is independent from $D^{xx'}$,
+implying the dynamics are described by the ``average connectivity'' between oscillators on the graph. This approximation becomes more
+accurate when the probability of rewiring $p$ approaches zero, which is true for a large number of networks in the small-world regime,
+as seen in figure~\ref{fig:small-world} of chapter~\ref{chap:article}. When $p=0$ we can restrict the summation over connected sites,
+from $(x-K)$ to $(x+K)$, recovering the MF proposed by Escaff \textit{et al.}~\cite{escaff2014arrays} for regular rings.
+
+The average $\left< \delta(j,j'(t)) \right>$ is identified with the probability of finding site $x'$ in state $j$ at time $t$: $\left<
+\delta(j,j'(t)) \right> \equiv P_j^{x'}(t)$, and we are left with the task of calculating $\left< D^{xx'}/\sum D^{xx'} \right>$. In
+order to unpack this expression we need a detailed description of the rewiring algorithm, which ultimately dictates the connectivity of
+the final graph.
 
 \begin{figure}
-    \centering
-    \includegraphics[width=0.75\textwidth]{fig/ring-distance.png}
-    \caption{\label{fig:ring-distance}
-        \textbf{Left:} Definition of distance $d_{xx'}$ between sites $x$ and $x'$. The distance $d_{xx'}$ is considered on the one
-        dimensional chain and does not take into account the connections that determine the coupling.\\
-        \textbf{Right:} Example of the initial ring lattice before any rewiring is performed, where the lines represent the coupling
-        between units.\\
-        One can imagine the dynamics take place on a periodic one dimensional system with interaction range $K$.
-    }
+  \centering
+  \includegraphics[width=0.75\textwidth]{fig/ring-distance.png}
+  \caption{\label{fig:ring-distance}
+    \textbf{Left:} Definition of distance $d_{xx'}$ between sites $x$ and $x'$. The distance $d_{xx'}$ is considered on the one
+    dimensional chain and does not take into account the connections that determine the coupling.\\
+    \textbf{Right:} Example of the initial ring lattice before any rewiring is performed, where the lines represent the coupling
+    between units.\\
+    One can imagine the dynamics takes place on a periodic one-dimensional system with interaction range $K$.
+  }
 \end{figure}
 
 \subsection{Rewiring algorithm}
 
-The rewiring algorithm considers each connection in the starting graph exactly once, and with probability $p$ it tries to swap one of
-its vertices for another randomly selected node in the network, avoiding double connections of self connections. Detailed instructions
-on how it was implemented are written in pseudo-code bellow.
+Here we give a detailed description of the rewiring algorithm in order to justify our expressions for the probability of existence of
+connections in the final graph, which dictate the dynamics. It considers each connection in the starting graph exactly once, and with
+probability $p$ it tries to swap one of its vertices for another randomly selected node in the network, avoiding double connections of
+self connections. Detailed instructions on how it was implemented are written in pseudo-code.
 
 \noindent
 \begin{minipage}{\linewidth}
 \begin{lstlisting}
 Given a ring lattice with N nodes and range K do:
 for z from 1 to K:
-    for x from 1 to N:
-        with probability p do:
-            sample a uniform integer r from 1 to N
-            if ( r == x ) or ( connection (x, r) already exists ):
-                do nothing
-            else:
-                remove the connection (x, x+z)
-                add the connection (x, r)
+  for x from 1 to N:
+    with probability p do:
+      sample a uniform integer r from 1 to N
+      if ( r == x ) or ( connection (x, r) already exists ):
+        do nothing
+      else:
+        remove the connection (x, x+z)
+        add the connection (x, r)
 \end{lstlisting}
 \end{minipage}
 
-To determine the probability the connection $(x, x')$ exists in the rewired graph, we introduce the notion of distance between nodes
-$x$ and $x'$. Let this be denoted by $d_{xx'}$, and the distance defined in the one dimensional chain as illustrated in
+To determine the probability that the connection $(x, x')$ exists in the rewired graph, we introduce the notion of distance between
+nodes $x$ and $x'$. Let this be denoted by $d_{xx'}$, and the distance defined in the one-dimensional chain as illustrated in
 figure~\ref{fig:ring-distance}. Due to the periodic condition $x \mapsto x+N$ on the boundaries, no distance can be greater than $N/2$,
 and thus $d_{xx'}$ is formally defined as:
 
 \begin{align}
-    d_{xx'} =
-    \begin{cases}
-        |x-x'| \quad &\text{if $|x-x'|\leq N/2$} \\
-        N-|x-x'| \quad &\text{if $|x-x'| > N/2$}
-    \end{cases}
-    \label{dist}
+  d_{xx'} =
+  \begin{cases}
+    |x-x'| \quad &\text{if $|x-x'|\leq N/2$} \\
+    N-|x-x'| \quad &\text{if $|x-x'| > N/2$}
+  \end{cases}
+  \label{dist}
 \end{align}
 
-To calculate the average values $\left< D_{xx'} \right>$ we consider two cases: $d_{xx'} \leq K$, the \textbf{close case}, and $d_{xx'}
+To calculate the average values $\left< D^{xx'} \right>$ we consider two cases: $d_{xx'} \leq K$, the \textbf{close case}, and $d_{xx'}
 > K$, the \textbf{far case}. The reasoning is that:
 
 \begin{itemize}
-    \item If the initial distance between two nodes is less than or equal to $K$, than by construction of the ring graph they start out
-        connected. The condition that this connection exists in the final graph is that it was never removed in the first place, or it
-        could have been removed and than subsequently reformed.
+  \item If the initial distance between two nodes is less than or equal to $K$, then by construction of the ring graph they start out
+    connected. The condition that this connection exists in the final graph is that it was never removed in the first place, or it
+    could have been removed and then subsequently reformed.
 
-    \item On the other hand, sites with $d_{xx'}>K$ start out disconnected, and thus a connection $(x,x')$ can only result from one of
-        its vertices being rewired that way.
+  \item On the other hand, sites with $d_{xx'}>K$ start out disconnected, and thus a connection $(x,x')$ can only result from one of
+    its vertices being rewired that way.
 \end{itemize}
 
-With a little deliberation on the rewiring procedure, one will agree that if it produces any connection, it is guaranteed to be present
-in the result. Conversely, if it fails to break a connection, that connection is also guaranteed to exist in the final graph.
+With a little thought regarding the rewiring procedure, one will agree that if it produces any connection, it is guaranteed to be
+present in the result. Conversely, if it fails to break an initial connection, that connection is also guaranteed to exist in the final
+graph.
 
-\subsection{Far case}
+\subsection*{Far case}
 
 \begin{figure}
-    \centering
-    \includegraphics[width=0.9\linewidth]{fig/rewire_contributions.png}
-    \caption{The presence of the connection $(x,x')$, in {\color{blue}\textbf{blue}}, in a small-world network generated from the
-        Watts-Strogatz algorithm can only be the result of the rewiring of a {\color{red}\textbf{red}} connection. On the left side,
-        the \textbf{far} case, $2K$ connections may contribute to the formation of $(x,x')$. On the \textbf{near} case (right side),
-        the original connection may either be left untouched or, in the case it is initially broken, it might be wired again by any of
-        the remaining $2(K-d_{xx'})+1$ red connections.}
-    \label{fig:rewire_contributions}
+  \centering
+  \includegraphics[width=0.9\linewidth]{fig/rewire_contributions.png}
+	\caption{The presence of the connection $(x,x')$, in {\color{blue}\textbf{blue}}, in a small-world network generated from the
+		Watts-Strogatz algorithm can only be the result of the rewiring of a {\color{red}\textbf{red}} connection. On the left side, the
+		\textbf{far} case, $2K$ connections may contribute to the formation of $(x,x')$. On the \textbf{near} case (right side), the
+		original connection may either be left untouched or, in case it is initially broken, it might be wired again by any of the
+	remaining $2(K-d_{xx'})+1$ solid {\color{red} red} connections.}
+  \label{fig:rewire_contributions}
 \end{figure}
 
-Here we derive the probability of existence for a connection between $x$ and $x'$ when $d_{xx'}>K$. Since the algorithm tries to swap
+Here we derive the probability of existence of a connection between $x$ and $x'$ when $d_{xx'}>K$. Since the algorithm tries to swap
 (with probability $p$) the clockwise node of an initial connection, the only connections that could possibly have broken to form
-$(x,x')$ are the $K$ clockwise neighbors of $x$, and the $K$ clockwise neighbors of $x'$, as illustrated on the left of
-figure~\ref{fig:rewire_contributions}. If any of these $2K$ events take place, $(x,x')$ is guaranteed to exist. Thus, $P(D_{xx'}=1)$ is
+$(x,x')$ are the $K$ clockwise neighbors of $x$, and the $K$ clockwise neighbors of $x'$, as illustrated in the left panel of
+figure~\ref{fig:rewire_contributions}. If any of these $2K$ events take place, $(x,x')$ is guaranteed to exist. Thus, $P(D^{xx'}=1)$ is
 the probability that at least one forming event took place, which is just the complement of the probability that \textit{no} such event
 took place.
 
 \begin{align}
-    P(D_{xx'}=1) = 1 - \left( 1 - \frac{p}{N} \right)^{2K} \qquad \text{for} \quad d_{xx'} > K
-    \label{eq:probfar}
+  P(D^{xx'}=1) = 1 - \left( 1 - \frac{p}{N} \right)^{2K} \qquad \text{for} \quad d_{xx'} > K
+  \label{eq:probfar}
 \end{align}
 
 In equation~(\ref{eq:probfar}), the probability that a connection rewires to $(x,x')$ is the probability that it breaks times the
@@ -261,29 +272,20 @@ probability of selecting the other vertex, which is just $p/N$. Therefore, the p
 to $(x,x')$ is the complement $1-p/N$. The probability that \textit{none} of the $2K$ connections generate $(x,x')$ is then
 $(1-p/N)^{2K}$, and the probability that at least one of them \textit{does} generate it is the complement again.
 
-\subsection{Near case}
+\subsection*{Near case}
 
 The near case is given by $d_{xx'}\leq K$. When considering the probability of existence for such shorter range connections, things get
 more complicated because the exact solutions depend on the choice of the starting point of the rewiring procedure. Consider the case
 shown in figure~\ref{fig:order_dependence} for interaction range $K=1$.
 
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.7\linewidth]{fig/order_dependence.png}
-    \caption{Rewiring of connection C2 may or may not contribute to the probability of existence of connection C1. If the rewiring
-    process starts at A, then C2 may be rewired into C1 if it was initially broken. On the other hand, if the starting point is B,
-    connection C2 can never be rewired to C1 because the later will always be present at the time of rewiring C2.}
+  \centering
+  \includegraphics[width=0.7\linewidth]{fig/order_dependence.png}
+  \caption{Rewiring of connection C2 may or may not contribute to the probability of existence of connection C1. If the rewiring
+  process starts at A, then C2 may be rewired into C1 if it was initially broken. On the other hand, if the starting point is B,
+  connection C2 can never be rewired to C1 because the later will always be present at the time of rewiring C2.}
 
-    \label{fig:order_dependence}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{fig/rewire_mc.png}
-    \caption{Comparison between expressions for the probability of existence of connections and those obtained from Monte Carlo
-    sampling of small-world networks produced by the Watts-Strogatz algorithm. Size used is $N=1000$ with 50 realizations each.}
-
-    \label{fig:rewire_mc}
+  \label{fig:order_dependence}
 \end{figure}
 
 If the rewiring process starts at point A, then rewiring of connection C2 contributes to the probability that C1 is present in the
@@ -295,128 +297,166 @@ $(x,x')$ will already have been considered by the algorithm, and any forming eve
 connection $(x,x')$.
 
 To avoid order dependence, we will assume the problematic event contributes the same amount as subsequent events to the probability of
-existence of the considered connection. Thus, all $2K-2d_{xx'}+1$ events contribute equally to $P(D_{xx'}=1)$, which is written as:
+existence of the considered connection. Thus, all $2K-2d_{xx'}+1$ events contribute equally to $P(D^{xx'}=1)$, which is written as:
 
 \begin{align}
-    P(D_{xx'}=1) = 1 - p\left(1-\frac{2K}{N}\right)\left(1-\frac{p}{N}\right)^{2K - 2d_{xx'} + 1} \qquad \text{for} \quad d_{xx'} \leq K
-    \label{eq:probnear}
+  P(D^{xx'}=1) = 1 - p\left(1-\frac{2K}{N}\right)\left(1-\frac{p}{N}\right)^{2K - 2d_{xx'} + 1} \qquad \text{for} \quad d_{xx'} \leq K
+  \label{eq:probnear}
 \end{align}
 
 \noindent As before, the expression is obtained by taking the complement of the probability that no event forms the connection
 $(x,x')$: the probability that the original connection is broken is $p(1-2K/N)$ ($p$ times the probability of selecting a site which
 does not already have a connection with $x$). This is another approximation since the number of connections involving site $x$ may
 change during the rewiring procedure, but because the later conserves the total number of connections it is at least justifiable for
-now (we later confirm it through experiment). The term $(1-p/N)^{2K-2d_{xx'}+1}$ accounts for the probabilities that no forming event
-occurs with the potential connections marked in {\color{red}red} on the right side of figure~\ref{fig:rewire_contributions}.
+now (we later confirm it numerically). The term $(1-p/N)^{2K-2d_{xx'}+1}$ accounts for the probabilities that no forming event occurs
+with the potential connections marked in {\color{red}red} on the right side of figure~\ref{fig:rewire_contributions}.
 
 \subsection{The discrete average field}
+\label{subsection:justifyapproximations}
 
-To check that the approximations are valid, we performed Monte Carlo sampling of the small-world networks and plotted the relative
-frequencies obtained for the existence of pairs of edges against the probabilities given by equations~(\ref{eq:probfar}) and
-(\ref{eq:probnear}). The results are shown, for various values of $p$ and $\alpha \equiv K/N$, in figure~\ref{fig:rewire_mc} where a
-good agreement is observed for all values of $p$ and interaction range $K$ for the fixed value of $N=1000$.
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{fig/rewire_mc.png}
+	\caption{Comparison between expressions for the probability of existence of connections as functions of rewiring probability $p$.
+		Dots are obtained from Monte Carlo sampling of small-world networks produced by the Watts-Strogatz algorithm, solid red lines are
+		equations (\ref{eq:probfar}) (top) and (\ref{eq:probnear}) (bottom). \\ System size $N=1000$ with 50 realizations each. Note that
+		when $p\to 0$ initially disconnected oscillators remain uncoupled while oscillators at distances $d^{xx'}\leq K$ remain coupled.}
 
-Note that we have equated a frequency measure (Monte Carlo sampling) with the associated probability $P(D_{xx'})$ in a frequentist
-probability interpretation, and since $D_{xx'}$ are binary variables with values 1 and 0, $\left<D_{xx'}\right> = P(D_{xx'}=1)$,
-resulting in
+  \label{fig:rewire_mc}
+\end{figure}
+
+To check that the probabilities $P(D^{xx'})$ are valid, we performed Monte Carlo sampling of the small-world networks and plotted the
+relative frequencies obtained against the probabilities given by equations~(\ref{eq:probfar}) and (\ref{eq:probnear}). The results are
+shown for various values of $p$ and $\alpha \equiv K/N$ in figure~\ref{fig:rewire_mc}, where good agreement is observed for all values
+of $p$ and interaction range $K$ with fixed $N=1000$.
+
+Note that since $D^{xx'}$ are binary variables with values 1 and 0 the probabilities $P(D^{xx'}=1)$ are given by the average
+$\left<D^{xx'}\right>$, resulting in
 
 \begin{equation}
-    \left<D_{xx'}\right> =
-    \begin{cases}
-        1-\left( 1 - \frac{p}{N} \right)^{2K} \quad &\text{if} \quad d_{xx'}>K\\
-        1-p\left( 1 - \frac{2K}{N} \right)\left( 1 - \frac{p}{N} \right)^{2K-2d_{xx'}+1} \quad &\text{if} \quad d_{xx'}\leq K\\
-    \end{cases}
-    \label{eq:probconnection}
+  \left<D^{xx'}\right> =
+  \begin{cases}
+    1-\left( 1 - \frac{p}{N} \right)^{2K} \quad &\text{if} \quad d_{xx'}>K\\
+    1-p\left( 1 - \frac{2K}{N} \right)\left( 1 - \frac{p}{N} \right)^{2K-2d_{xx'}+1} \quad &\text{if} \quad d_{xx'}\leq K\\
+  \end{cases}
+  \label{eq:probconnection}
 \end{equation}
 
-Using equation~(\ref{eq:probconnection}) we write the bottom summation of equation (\ref{eq:numf}) as
+To further develop a MF approach, we focus on the first average on the RHS of equation~(\ref{eq:numf}). We argue that $\var{\sum
+D^{xx'}}$ is small, and thus $\sum D^{xx'} \approx \left< \sum D^{xx'} \right>$, allowing us to replace the average of the quotient by
+the quotient of the averages. Equation~(\ref{eq:numf}) then becomes:
+
+\begin{equation}
+    \left< \frac{D^{xx'}}{\sum_{x'}D^{xx'}} \right> \approx \frac{\left< D^{xx'} \right>}{\sum_{x'}\left< D^{xx'} \right>}
+    \label{eq:avgquotient}
+\end{equation}
+
+\noindent By using (\ref{eq:probconnection}) we write:
 
 \begin{align}
-    \sum_{x'=1}^N \left< D_{xx'} \right> = &\sum_{d_{xx'}\leq K} \left[
-    1 - p\left(1-\frac{2K}{N}\right)\left(1-\frac{p}{N}\right)^{2K - 2d_{xx'} + 1} \right] \notag\\
-        + &\sum_{d_{xx'}>K} \left[ 1 - \left( 1 - \frac{p}{N} \right)^{2K} \right]
+  \sum_{x'=1}^N \left< D^{xx'} \right> = &\sum_{d_{xx'}\leq K} \left[
+  1 - p\left(1-\frac{2K}{N}\right)\left(1-\frac{p}{N}\right)^{2K - 2d_{xx'} + 1} \right] \notag\\
+    + &\sum_{d_{xx'}>K} \left[ 1 - \left( 1 - \frac{p}{N} \right)^{2K} \right]
 \end{align}
 
-\noindent which can be expanded into powers of $p$ using the binomial expansion to give
+\noindent which expanded in powers of $p$ using the binomial expansion results in
+
+%\begin{align}
+%  \left( a - b \right)^n = \sum_{i=0}^n \binom{n}{i}(-1)^ia^{n-i}b^{i} \notag
+%\end{align}
 
 \begin{align}
-    \left( a - b \right)^n = \sum_{i=0}^n \binom{n}{i}(-1)^ia^{n-i}b^{i} \notag
+  \sum_{x'=1}^N \left< D^{xx'} \right> = &\sum_{d_{xx'}\leq K} \left[ \vphantom{\frac{2K}{N}} \right. 1 - \left( 1 - \frac{2K}{N} \right) p + \frac{\left( 2K-2d_{xx'}+1 \right)}{N} \left( 1 - \frac{2K}{N} \right) p^2 \notag\\
+  &\qquad - \frac{(2K-d_{xx'}+1)(2K-2d_{xx'})}{2N^2}\left( 1 - \frac{2K}{N} \right)p^3 + \mathcal{O}(p^4) \left. \vphantom{\frac{2K}{N}} \right] \notag\\
+  +&\sum_{d_{xx'}> K} \left[ 2\frac{K}{N}p - \frac{2K(2K-1)}{2N^2}p^2 + \frac{2K(2K-1)(2K-2)}{6N^3}p^3 - \mathcal{O}(p^4) \right]
+  \label{eq:ppower}
 \end{align}
 
-\begin{align}
-    \sum_{x'=1}^N \left< D_{xx'} \right> = &\sum_{d_{xx'}\leq K} \left[ \vphantom{\frac{2K}{N}} \right. 1 - \left( 1 - \frac{2K}{N} \right) p + \frac{\left( 2K-2d_{xx'}+1 \right)}{N} \left( 1 - \frac{2K}{N} \right) p^2 \notag\\
-    &\qquad - \frac{(2K-d_{xx'}+1)(2K-2d_{xx'})}{2N^2}\left( 1 - \frac{2K}{N} \right)p^3 + \mathcal{O}(p^4) \left. \vphantom{\frac{2K}{N}} \right] \notag\\
-    +&\sum_{d_{xx'}> K} \left[ 2\frac{K}{N}p - \frac{2K(2K-1)}{2N^2}p^2 + \frac{2K(2K-1)(2K-2)}{6N^3}p^3 - \mathcal{O}(p^4) \right]
-    \label{eq:ppower}
-\end{align}
-
-In what follows, we will be interested in the limit of large $N$ while the proportion $K/N\equiv \alpha$ ($\alpha \in \{0, 0.5\}$)
-remains \textit{constant}. Therefore we can write the coefficients of $p$ in equation~(\ref{eq:ppower}) as powers of $K$ ($K$ and
-$d_{xx'}$) divided by a power of $N$ for the far (near) case. Any terms of the form $K^a/N^b$ with $a<b$ (or of the form
-$K^a(d_{xx'})^b/N^c$ with $a+b<c$) will go to zero for large $N$. Retaining only the highest powers for $K$ and $d_{xx'}$ gives:
+In the limit of large $N$ with {\textit constant} $K/N\equiv \alpha$ ($\alpha \in \{0, 0.5\}$) we can write the coefficients of $p$ in
+equation~(\ref{eq:ppower}) as powers of $K$ ($K$ and $d_{xx'}$) divided by a power of $N$ for the far (near) case. Any terms of the
+form $K^a/N^b$ with $a<b$ (or of the form $K^a(d_{xx'})^b/N^c$ with $a+b<c$) will go to zero. Retaining powers of $K$ and $d_{xx'}$
+only if they are greater or equal to zero gives:
 
 \begin{align}
-    \sum_{x'=1}^N \left< D_{xx'} \right> = \sum_{d_{xx'}\leq K} &\left[ \vphantom{\frac{2K}{N}} \right. 1 - \left( 1 - 2\alpha \right) p + 2\left( \alpha-\alpha_{xx'} \right) \left( 1 - 2\alpha \right) p^2 \notag\\
-    &- (2\alpha^2 + \alpha_{xx'}^2 - 3\alpha\alpha_{xx'})\left( 1 - 2\alpha \right)p^3 + \mathcal{O}(p^4) \left.  \vphantom{\frac{2K}{N}} \right] \notag\\[12pt]
-    +\sum_{d_{xx'}> K} &\left[ 2\alpha p - 2\alpha^2 p^2 + \frac{4}{3}\alpha^3 p^3 - \mathcal{O}(p^4) \right]
-    \label{eq:ppower2}
+  \sum_{x'=1}^N \left< D^{xx'} \right> = \sum_{d_{xx'}\leq K} &\left[ \vphantom{\frac{2K}{N}} \right. 1 - \left( 1 - 2\alpha \right) p + 2\left( \alpha-\alpha_{xx'} \right) \left( 1 - 2\alpha \right) p^2 \notag\\
+  &- (2\alpha^2 + \alpha_{xx'}^2 - 3\alpha\alpha_{xx'})\left( 1 - 2\alpha \right)p^3 + \mathcal{O}(p^4) \left.  \vphantom{\frac{2K}{N}} \right] \notag\\[12pt]
+  +\sum_{d_{xx'}> K} &\left[ 2\alpha p - 2\alpha^2 p^2 + \frac{4}{3}\alpha^3 p^3 - \mathcal{O}(p^4) \right]
+  \label{eq:ppower2}
 \end{align}
 
 \noindent where we have written $\alpha_{xx'} \equiv d_{xx'}/N$ for brevity.
 
 For small-world networks, the parameter $p$ tends to be small\cite{rodrigues2020synchronization}, as seen from
 figure~\ref{fig:small-world}, and considering only terms up to first order in $p$ allows us to perform the summations by eliminating
-terms that depend on $d_{xx'}$.
+terms that depend on $x'$:
 
 \begin{align}
-    \sum_{x'=1}^N \left< D_{xx'} \right> &= \sum_{d_{xx'}\leq K} \left( 1 - p + 2\alpha p \right) + \sum_{d_{xx'}> K} 2\alpha p \notag\\
-    &= 2K\left( 1 - p + 2\alpha p \right) + (N-2K)2\alpha p \notag\\
-    &= 2K - \cancel{2Kp} + \bcancel{4K\alpha p} + \cancel{2N\alpha p} - \bcancel{4K\alpha p} \notag\\[12pt]
-    \sum_{x'=1}^N \left< D_{xx'} \right> &= 2K
-    \label{eq:ppower3}
+  \sum_{x'=1}^N \left< D^{xx'} \right> &= \sum_{d_{xx'}\leq K} \left( 1 - p + 2\alpha p \right) + \sum_{d_{xx'}> K} 2\alpha p \notag\\
+  &= 2K\left( 1 - p + 2\alpha p \right) + (N-2K)2\alpha p \notag\\
+  &= 2K - \cancel{2Kp} + \bcancel{4K\alpha p} + \cancel{2N\alpha p} - \bcancel{4K\alpha p} \notag\\[12pt]
+  \sum_{x'=1}^N \left< D^{xx'} \right> &= 2K
+  \label{eq:ppower3}
 \end{align}
 
 \noindent where we have made use of the fact that $N\alpha = K$. This result is consistent with the previous statement that the average
 number of neighbors remains unchanged after the rewiring procedure, and also recovers previous results\cite{escaff2014arrays} for the
 case $p=0$.
 
-We now look at the expression $\sum_{x'} \left< D_{xx'} \right> \left< \delta_{jj'} \right>$, the numerator of equation~(\ref{eq:numf})
-, where $j$ and $j'$ are the states of oscillators at $x$ and $x'$ respectively. We identify the term $\left< \delta_{jj'}(t) \right>$
-with the probability of finding the oscillator at $x'$ in state $j$ at time $t$ and write it as $P_j^{x'}(t)$. The term $\left< D_{xx'}
-\right>$ is expanded as before in the limit $N \gg 1$ and $p \approx 0$ and we obtain:
-
-\begin{align}
-    \left< \delta_{jj'}(t) \right> &\equiv P_j^{x'}(t) \notag\\
-    \left< D_{xx'} \right> &=
-    \begin{cases}
-        1-(1-2\alpha)p \quad &\text{if $d_{xx'} \leq K$}\\
-        2\alpha p \quad &\text{if $d_{xx'} > K$}\\
-    \end{cases} \notag\\[12pt]
-    \sum_{x'=1}^N \left< D_{xx'} \right> P_j^{x'}(t) &= 2K\alpha p \sum_{d_{xx'}>K}P_j^{x'}(t) + [1-(1-2\alpha)p]\sum_{d_{xx'}\leq K} P_j^{x'}(t)
-    \label{eq:numerator}
-\end{align}
-
-\noindent by adding and subtracting the sum $2p\alpha\sum_{d_{xx'} \leq K}P_j^{x'}(t)$ to (\ref{eq:numerator}) we can group terms to
-obtain
-
-\begin{align}
-    \sum_{x'=1}^N \left< D_{xx'} \right> P_j^{x'}(t) &= 2p\frac{K}{N}\sum_{j'=1}^N P_j^{x'}(t) + (1-p)\sum_{d_{jj'} \leq K} P_j^{x'}(t)
-    \label{eq:numerator2}
-\end{align}
-
-\noindent and finally substituting (\ref{eq:numerator2}) and (\ref{eq:ppower3}) back into equation~(\ref{eq:numf}) gives the MF value
-for the parameter $\nu$:
+We now focus briefly on calculating $\var{\sum D^{xx'}}$. The numerical analysis depicted in figure~\ref{fig:rewire_mc} shows that
+regarding the presence of connections in the final graph as independent events is a very good approximation. Thus, we can distribute
+the variance function inside the summation and ignore the covariance term, leading to:
 
 \begin{equation}
-    \upsilon_{j,MF}^x(t) = \underbrace{\frac{p}{N}\sum_{x'=1}^N P_j^{x'}(t)}_{\text{Global}}
-\quad + \quad \underbrace{\frac{1-p}{2K}\sum_{x'=-K}^K P_j^{x+x'}(t)}_{\text{Local}}
-    \label{eq:upsilonp}
+  \var{\sum_{x'}D^{xx'}} = \sum_{x'} \var{D^{xx'}}
 \end{equation}
 
-We see that the rewiring process creates an effective global coupling component while the coupling inside the range $2K$ is reduced by
-a factor $(1-p)$. In the limit of $p\to 0$, equation~(\ref{eq:upsilonp}) recovers the MF previously derived by Escaff \textit{et al.}
-for regular ring lattices\cite{escaff2014arrays}. We also note that the limit $p\to 1$ yields an incorrect result, since in this case
-the effective coupling inside the region $x-K$ and $x+K$ cannot go to zero as would be predicted by equation~(\ref{eq:upsilonp}).
+By making use of \ref{eq:probconnection} once more, we expand the binomials to get polynomials in $p$, cancelling out any terms
+$\mathcal{O}(1/N)$ and then keeping only first order in $p$:
+
+\begin{align}
+  \var{\sum_{x'}D^{xx'}} &= \sum_{\substack{x' \\ d^{xx'}\leq K}} \left( 2\alpha p + \cancelto{0}{\mathcal{O}(p^2)} \right) +
+  \sum_{\substack{x' \\ d^{xx'} > K}} \left( (1-2\alpha )p + \cancelto{0}{\mathcal{O}(p^2)} \right) \notag\\[12pt]
+  \var{\sum_{x'}D^{xx'}} &= \left(4\alpha-8\alpha^2\right)Np
+\end{align}
+
+\noindent where we have used the fact that there are $2K$ connections with distance $d^{xx'}\leq K$ and $N-2K$ connections with
+$d^{xx'}>K$. The resulting variance is proportional to $Np$, and thus for large $N$ it grows without bound, but it may be regarded as
+sufficiently small when compared to other system properties which are independent of $p$.
+
+With these last considerations, the expression for the average of the local order parameter becomes:
+
+\begin{equation}
+	\left< \nu^x_j(t) \right> = \frac{1}{2K} \sum_{x'}\left< D^{xx'} \right> P^{x'}_j(t)
+	\label{eq:numffirstorder}
+\end{equation}
+
+\noindent where $P^{x'}_j(t) \equiv \left< \delta(j,j'(t)) \right>$ is the probability that the state $j'$ of oscillator at position
+$x'$ is equal to $j$ at time $t$.
+
+Taking terms of first order in $p$ from equation~(\ref{eq:probconnection}) and substituting into equation(\ref{eq:numffirstorder})
+results in the MF expression for $\nu$:
+
+\begin{equation}
+	\left< D^{xx'} \right> =
+	\begin{cases}
+    1-(1-2\alpha)p \quad &\text{if $d_{xx'} \leq K$}\\
+    2\alpha p \quad &\text{if $d_{xx'} > K$}
+	\end{cases}
+\end{equation}
+
+
+\begin{equation}
+  \upsilon_{j,MF}^x(t) = \underbrace{\frac{p}{N}\sum_{x'=1}^N P_j^{x'}(t)}_{\text{Global}}
+\quad + \quad \underbrace{\frac{1-p}{2K}\sum_{x'=-K}^K P_j^{x+x'}(t)}_{\text{Local}}
+  \label{eq:upsilonp}
+\end{equation}
+
+We see that the effect of the rewiring process is to induce a global coupling component, while the coupling inside the initial range
+$2K$ is reduced by a factor $(1-p)$. In the limit of $p\to 0$, equation~(\ref{eq:upsilonp}) recovers the MF previously derived by
+Escaff \textit{et al.} for regular ring lattices\cite{escaff2014arrays}. We also note that the limit $p\to 1$ yields an intuitive
+result, even if only qualitatively so: when the network is fully random ($p=1$), the local term vanishes, resulting exclusively in a
+global term. This is expected from our early assumption that the dynamics are governed by the average connectivity, since for random
+networks every connection has the same average connectivity value.
 
 \section{Continuous limit}
 
@@ -428,15 +468,15 @@ probability of finding the oscillator at $x$ in state $j$ is now $P_j(x,t)$. The
 becomes $f(x)=f(x+1)$. As for the sums we now have
 
 \begin{align}
-    \frac{1}{N}\sum_{x'=1}^N &\to \int_{0}^{1} dx' \notag\\
-    \frac{1}{2K}\sum_{x'=-K}^K &\to \frac{1}{2\alpha}\int_{-\alpha}^{\alpha} dx'
+  \frac{1}{N}\sum_{x'=1}^N &\to \int_{0}^{1} dx' \notag\\
+  \frac{1}{2K}\sum_{x'=-K}^K &\to \frac{1}{2\alpha}\int_{-\alpha}^{\alpha} dx'
 \end{align}
 
 \noindent which leads us to the continuous expression for $\nu_j(x,t)$:
 
 \begin{align}
-    \nu_j(x,t) = p \int_0^1 P_j(x',t)dx' + \frac{1-p}{2\alpha}\int_{x-\alpha}^{x+\alpha} P_j(x',t)dx'
-    \label{eq:numfcontinuous}
+  \nu_j(x,t) = p \int_0^1 P_j(x',t)dx' + \frac{1-p}{2\alpha}\int_{x-\alpha}^{x+\alpha} P_j(x',t)dx'
+  \label{eq:numfcontinuous}
 \end{align}
 
 \noindent the transition rates from state $j$ to $j+1$ for an oscillator at position $x$ in the continuous MF limit is then given by
@@ -444,8 +484,8 @@ rewriting equation~(\ref{eq:mfrate}) with the notation $\gamma^x_j(t) \to \gamma
 of $\nu^x_j$:
 
 \begin{align}
-    \gamma_j(x,t) = \omega(x) \exp\left[ a\left( \nu_{j+1}(x,t) - \nu_j(x,t) \right) \right]
-    \label{eq:ratecontinuous}
+  \gamma_j(x,t) = \omega(x) \exp\left[ a\left( \nu_{j+1}(x,t) - \nu_j(x,t) \right) \right]
+  \label{eq:ratecontinuous}
 \end{align}
 
 \noindent where $\omega(x)$ is the uncoupled frequency of the oscillator at $x$, sampled from some unimodal symmetric distribution $g$.
@@ -455,8 +495,8 @@ now spatially distributed probability $P_j(x,t)$. Again we have the condition $P
 two equations to describe the probabilities of all three states. The master equation for state $j$ is then written as
 
 \begin{align}
-    \ddt{P_j}(x,t) &= \gamma_{j-1}(x,t)P_{j-1}(x,t) - \gamma_j(x,t)P_j(x,t) & x\in[0,1)
-    \label{eq:motioncontinuous}
+  \ddt{P_j}(x,t) &= \gamma_{j-1}(x,t)P_{j-1}(x,t) - \gamma_j(x,t)P_j(x,t) & x\in[0,1)
+  \label{eq:motioncontinuous}
 \end{align}
 
 The solutions of equations~(\ref{eq:motioncontinuous}) thus describe the predicted behaviors of sufficiently large populations of
@@ -464,29 +504,29 @@ oscillators, and can be compared to direct simulations of the dynamics.
 
 \section{Solutions for the continuous mean field}
 
-The system described by equations~(\ref{eq:ratecontinuous})~and~(\ref{eq:motioncontinuous}) is the MF approximation for the rewired
-ring lattices. One solution to this sytem is $P_1(x,t)=P_2(x,t)=1/3$, called the \textit{quiescent} solution. To see this, note that
-from equation~(\ref{eq:numfcontinuous}) we have $\nu_1(x,t) = \nu_2(x,t)$ when the probabilities are the same, and therefore
-$\gamma_1(x,t) = \gamma_2(x,t) = \gamma_3(x,t)=\omega(x)$ from equation~(\ref{eq:ratecontinuous}). The \textit{quiescent} solution is
-stable when the coupling strength $a$ is bellow some critical value $a_c$ that depends on the couplings and whose lowest value is
-attained for the complete graph, with $a_c=1.5$. The threshold $a_c$ marks a Hopf bifurcation\footnotemark type transition for graphs
-that support global oscillations\cite{Wood06a}\cite{rodrigues2020synchronization}\cite{Wood06b}\cite{Wood07b}. When the coupling $a$ is
-larger than the critical value $a_c$ the \textit{quiescent} solution becomes unstable and self-organization takes place, usually in the
-form of global synchronization. This does not necessarily mean global oscillations are stable in the mathematical sense. Analysis for
-the globally synchronized phases has been notoriously difficult for oscillator models in general.
+The system described by equations~(\ref{eq:ratecontinuous})~and~(\ref{eq:motioncontinuous}) is the MF approximation for rewired ring
+lattices. One solution to this system is $P_1(x,t)=P_2(x,t)=1/3$, called the \textit{quiescent} solution. To see this, note that from
+equation~(\ref{eq:numfcontinuous}) we have $\nu_1(x,t) = \nu_2(x,t)$ when the probabilities are the same, and therefore $\gamma_1(x,t)
+= \gamma_2(x,t) = \gamma_3(x,t)=\omega(x)$ from equation~(\ref{eq:ratecontinuous}). The \textit{quiescent} solution is stable when the
+coupling strength $a$ is bellow some critical value $a_c$ that depends on the couplings and whose lowest value is attained for the
+complete graph, with $a_c=1.5$. The threshold $a_c$ marks a Hopf bifurcation\footnotemark type transition for graphs that support
+global oscillations\cite{Wood06a}\cite{rodrigues2020synchronization}\cite{Wood06b}\cite{Wood07b}. When the coupling $a$ is larger than
+the critical value $a_c$ the \textit{quiescent} solution becomes unstable and self-organization takes place, usually in the form of
+global synchronization. This does not necessarily mean global oscillations are stable in the mathematical sense. Analysis for the
+globally synchronized phases has been notoriously difficult for oscillator models in general.
 
 \footnotetext{A Hopf bifurcation occurs when a periodic solution arises around an equilibrium point as some parameter varies. Here, the
 oscillations arise around the \textit{quiescent} solution as $a$ increases past $a_c$.}
 
-In chapter~\ref{chap:simulations} we explore simulations on small-world networks with strong coupling that do not always lead to global
+In chapter~\ref{chap:simulation} we explore simulations on small-world networks with strong coupling that do not always lead to global
 oscillations. Depending on initial conditions and the inherent noise, the system may converge to a travelling wave solution, displaying
 only local synchronization. Following a similar analysis by Escaff et al.\cite{escaff2014arrays} we investigate such a wave solution by
 perturbing the \textit{quiescent} state with a waveform and then checking what happens to the time evolution of the amplitude of said
 perturbation, which we modulate by some arbitrary parameter $\epsilon_j$:
 
 \begin{align}
-    P_j(x,t) = 1/3 + \epsilon_j e^{ikx + \lambda t}
-    \label{eq:solperturb}
+  P_j(x,t) = 1/3 + \epsilon_j e^{ikx + \lambda t}
+  \label{eq:solperturb}
 \end{align}
 
 \noindent where $i=\sqrt{-1}$, $k\in\mathbb{R}$ and $\lambda\in\mathbb{C}$. The periodic condition $P_j(0,t) = P_j(1,t)$ implies that
@@ -495,26 +535,26 @@ the goal is to identify whether there are any conditions on the model parameters
 in such case the amplitude of the waveform would increase as $t$ grows. Thus, for wave solutions we have
 
 \begin{align}
-    \ddt{P}_j(x,t) &= \lambda\epsilon_j e^{ikx + \lambda t}
-    \label{eq:dpperturb}
+  \ddt{P}_j(x,t) &= \lambda\epsilon_j e^{ikx + \lambda t}
+  \label{eq:dpperturb}
 \end{align}
 
 \noindent and for $\nu_j(x,t)$ (equation~(\ref{eq:numfcontinuous})) the global component vanishes, due to the periodic condition
 $k=2\pi m$, and we get:
 
 \begin{align}
-    \nu_j(x,t) &= \frac{p}{3} + p\epsilon_je^{\lambda t}\cancelto{0}{\int_0^1 e^{ikx'}dx'} +
-    \frac{1-p}{3} + \frac{1-p}{2\alpha} \epsilon_je^{\lambda t}\int_{x-\alpha}^{x+\alpha}e^{ikx'}dx' \notag\\[14pt]
-    \nu_j(x,t) &= \frac{1}{3} + (1-p)\frac{\sin k\alpha}{k\alpha}\epsilon_je^{ikx+\lambda t}
-    \label{eq:nuperturb}
+  \nu_j(x,t) &= \frac{p}{3} + p\epsilon_je^{\lambda t}\cancelto{0}{\int_0^1 e^{ikx'}dx'} +
+  \frac{1-p}{3} + \frac{1-p}{2\alpha} \epsilon_je^{\lambda t}\int_{x-\alpha}^{x+\alpha}e^{ikx'}dx' \notag\\[14pt]
+  \nu_j(x,t) &= \frac{1}{3} + (1-p)\frac{\sin k\alpha}{k\alpha}\epsilon_je^{ikx+\lambda t}
+  \label{eq:nuperturb}
 \end{align}
 
 \noindent equation~(\ref{eq:nuperturb}) can now be substituted in (\ref{eq:ratecontinuous}) to obtain the transition rate for the wave
 solution:
 
 \begin{align}
-    \gamma_j(x,t) &= \omega(x)\exp\left[ a(1-p)\frac{\sin k\alpha}{k\alpha}(\epsilon_{j+1}-\epsilon_j)e^{ikx+\lambda t} \right]
-    \label{eq:rateperturb}
+  \gamma_j(x,t) &= \omega(x)\exp\left[ a(1-p)\frac{\sin k\alpha}{k\alpha}(\epsilon_{j+1}-\epsilon_j)e^{ikx+\lambda t} \right]
+  \label{eq:rateperturb}
 \end{align}
 
 Substituting equations~(\ref{eq:solperturb}),(\ref{eq:dpperturb}) and (\ref{eq:rateperturb}) into the master
@@ -522,35 +562,35 @@ equations~(\ref{eq:motioncontinuous}) yields the conditions under which the wave
 $W\equiv ikx + \lambda t$ and $\hat{a}\equiv a(1-p)\frac{\sin k\alpha}{k\alpha}$ for brevity:
 
 \begin{align}
-    \lambda \epsilon_je^W = \omega(x)e^{\hat{a}(\epsilon_j-\epsilon_{j-1})e^W}\left(1/3+\epsilon_{j-1}e^W\right)
-    - \omega(x)e^{\hat{a}(\epsilon_{j+1}-\epsilon_j)e^W}\left(1/3+\epsilon_je^W\right) \notag
+  \lambda \epsilon_je^W = \omega(x)e^{\hat{a}(\epsilon_j-\epsilon_{j-1})e^W}\left(1/3+\epsilon_{j-1}e^W\right)
+  - \omega(x)e^{\hat{a}(\epsilon_{j+1}-\epsilon_j)e^W}\left(1/3+\epsilon_je^W\right) \notag
 \end{align}
 
 \noindent This can be reduced by using the approximation $e^x \approx 1 + x$, $x\approx 0$ in the small $\epsilon_j$ regime. Setting
 all the remaining terms in $\epsilon_j$, of order 2 or higher, to zero yields:
 
 \begin{align}
-    \lambda \epsilon_j\cancel{e^W} &= \omega(x)\left(1+\hat{a}(\epsilon_j-\epsilon_{j-1})e^W\right)\left(1/3+\epsilon_{j-1}e^W\right)
-    - \omega(x)\left(1+\hat{a}(\epsilon_{j+1}-\epsilon_j)e^W\right)\left(1/3+\epsilon_je^W\right) \notag \\
-    &= \omega(x)\left( \epsilon_{j-1} - \epsilon_j + \frac{\hat{a}}{3}\left( 2\epsilon_j - \epsilon_{j-1} - \epsilon_{j+1} \right) \right)\cancel{e^W} \notag
+  \lambda \epsilon_j\cancel{e^W} &= \omega(x)\left(1+\hat{a}(\epsilon_j-\epsilon_{j-1})e^W\right)\left(1/3+\epsilon_{j-1}e^W\right)
+  - \omega(x)\left(1+\hat{a}(\epsilon_{j+1}-\epsilon_j)e^W\right)\left(1/3+\epsilon_je^W\right) \notag \\
+  &= \omega(x)\left( \epsilon_{j-1} - \epsilon_j + \frac{\hat{a}}{3}\left( 2\epsilon_j - \epsilon_{j-1} - \epsilon_{j+1} \right) \right)\cancel{e^W} \notag
 \end{align}
 
 \noindent but the condition $P_{j-1}(x,t)+P_j(x,t)+P_{j+1}(x,t)=1$ implies $\epsilon_{j-1}=-\epsilon_j-\epsilon_{j+1}$ and thus:
 
 \begin{align}
-    \lambda = \omega(x)\left( \hat{a}-2 - \frac{\epsilon_{j+1}}{\epsilon_j} \right)
-    \label{eq:lambdaj}
+  \lambda = \omega(x)\left( \hat{a}-2 - \frac{\epsilon_{j+1}}{\epsilon_j} \right)
+  \label{eq:lambdaj}
 \end{align}
 
 Finally, setting $j=1$ and then $j=2$ gives us two independent equations which can be used to eliminate the ratio
 $\epsilon_1/\epsilon_2$ from equation~(\ref{eq:lambdaj}) and solve for $\lambda$:
 
 \begin{align}
-    \lambda &= \omega(x)\left( \hat{a} - 2 - \frac{\epsilon_2}{\epsilon_1} \right) \notag \\
-    \lambda &= \omega(x)\left( \hat{a} - 2 + 1 + \frac{\epsilon_1}{\epsilon_2} \right) \notag \\
-    &\Downarrow \notag \\
-    \lambda &= \omega(x)\left( \hat{a} - \frac{3}{2} \pm \frac{1}{2}i\sqrt{3} \right)
-    \label{eq:lambdacontinuous}
+  \lambda &= \omega(x)\left( \hat{a} - 2 - \frac{\epsilon_2}{\epsilon_1} \right) \notag \\
+  \lambda &= \omega(x)\left( \hat{a} - 2 + 1 + \frac{\epsilon_1}{\epsilon_2} \right) \notag \\
+  &\Downarrow \notag \\
+  \lambda &= \omega(x)\left( \hat{a} - \frac{3}{2} \pm \frac{1}{2}i\sqrt{3} \right)
+  \label{eq:lambdacontinuous}
 \end{align}
 
 Equation (\ref{eq:lambdacontinuous}) expresses the dispersion relation $\lambda(k,x)$, and thus the frequency of the travelling wave
@@ -560,16 +600,16 @@ $g$, in the continuous limit the speed-ups and slow-downs cancel out and the res
 $\bar{g}$. This can be seen from the fact that, for any positive value $\delta x$ we have:
 
 \begin{align}
-    \int_x^{x+\delta x} \omega(x')dx' &= \bar{g} \notag\\
-    & \Downarrow \notag\\
-    \int_x^{x+\delta x} \lambda(k,x')dx' &= \bar{g} \left( \hat{a} - \frac{3}{2} \pm \frac{1}{2}i\sqrt{3} \right)
+  \int_x^{x+\delta x} \omega(x')dx' &= \bar{g} \notag\\
+  & \Downarrow \notag\\
+  \int_x^{x+\delta x} \lambda(k,x')dx' &= \bar{g} \left( \hat{a} - \frac{3}{2} \pm \frac{1}{2}i\sqrt{3} \right)
 \end{align}
 
 And therefore, the local value of $\lambda$ for an arbitrarily small neighborhood around $x$, for any $x$, is given by the average
 value $\bar{g}$. The perturbed solutions for sufficiently small values of $\epsilon_j$ are then written as
 
 \begin{align}
-    P_j(x,t) = \frac{1}{3} + \epsilon_j e^{\left( \hat{a} - \frac{3}{2} \right)\bar{g}t} e^{i\left(kx + \frac{\sqrt{3}}{2}\bar{g}t\right)}
+  P_j(x,t) = \frac{1}{3} + \epsilon_j e^{\left( \hat{a} - \frac{3}{2} \right)\bar{g}t} e^{i\left(kx + \frac{\sqrt{3}}{2}\bar{g}t\right)}
 \end{align}
 
 \noindent where we have factored out $\operatorname{Re}(\lambda)$ to explicitly show the time dependence of the amplitude of the
@@ -579,8 +619,8 @@ transitions (namely from $j$ to $j+1$ cycling back to 1 when $j=3$) means $\bar{
 $\operatorname{Re}(\lambda)>0$ implies $\hat{a} > 3/2$ which is:
 
 \begin{align}
-    a(1-p)\frac{\sin(2\pi m\alpha)}{2\pi m\alpha} > \frac{3}{2}
-    \label{eq:lambdapos}
+  a(1-p)\frac{\sin(2\pi m\alpha)}{2\pi m\alpha} > \frac{3}{2}
+  \label{eq:lambdapos}
 \end{align}
 
 \noindent where $m$ is an integer and $\alpha$ is the interaction range expressed as a fraction of system size. The derivation of
@@ -589,7 +629,7 @@ state ($m=0$) is not described by equation~(\ref{eq:lambdapos}). For a given val
 value for the coupling is given by setting an equality in equation~(\ref{eq:lambdapos}):
 
 \begin{align}
-    a_c = \frac{3}{2}\frac{1}{(1-p)}\frac{(2\pi m\alpha)}{\sin(2\pi m\alpha)}
+  a_c = \frac{3}{2}\frac{1}{(1-p)}\frac{(2\pi m\alpha)}{\sin(2\pi m\alpha)}
 \end{align}
 
 Thus, the critical value is a function of $p$, $\alpha$, and the wave number $m$. If we fix $p$ and $\alpha$, which are continuous
@@ -601,41 +641,41 @@ decreasing critical values.
 \colorlet{r}{Red!50}
 \newcommand{\cc}{\cellcolor}
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{c|c|c|c|c|c|c|c|c}
-    $\alpha\backslash m$ & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 \\
-    \hline
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c|c|c}
+  $\alpha\backslash m$ & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 \\
+  \hline
 
-    \vspace{8pt}
+  \vspace{8pt}
 
-    0.05 & \cc{g}6.41 & \cc{g}4.08 & \cc{g}2.97 & \cc{g}2.36 & \cc{g}1.98 & \cc{g}1.75 & \cc{g}1.60 & \cc{g}1.52 \\
-    $\alpha\backslash m$ & 5 & 4 & 3 & 2 & 1 & 7 & 8 & 6 \\
-    \hline
+  0.05 & \cc{g}6.41 & \cc{g}4.08 & \cc{g}2.97 & \cc{g}2.36 & \cc{g}1.98 & \cc{g}1.75 & \cc{g}1.60 & \cc{g}1.52 \\
+  $\alpha\backslash m$ & 5 & 4 & 3 & 2 & 1 & 7 & 8 & 6 \\
+  \hline
 
-    \vspace{8pt}
+  \vspace{8pt}
 
-    0.10 & $\infty$ & \cc{g}6.41 & \cc{g}2.97 & \cc{g}1.98 & \cc{g}1.60 & \cc{r}-6.94 & \cc{r}-7.93 & \cc{r}-9.62 \\
-    $\alpha\backslash m$ & 7 & 6 & 2 & 1 & 4 & 3 & 8 & 5 \\
-    \hline
+  0.10 & $\infty$ & \cc{g}6.41 & \cc{g}2.97 & \cc{g}1.98 & \cc{g}1.60 & \cc{r}-6.94 & \cc{r}-7.93 & \cc{r}-9.62 \\
+  $\alpha\backslash m$ & 7 & 6 & 2 & 1 & 4 & 3 & 8 & 5 \\
+  \hline
 
-    \vspace{8pt}
+  \vspace{8pt}
 
-    0.20 & \cc{g}22.45 & \cc{g}11.89 & \cc{g}6.41 & \cc{g}1.98 & \cc{r}-7.93 & \cc{r}-9.62 & \cc{r}-25.66 & -$\infty$ \\
-    \end{tabular}
+  0.20 & \cc{g}22.45 & \cc{g}11.89 & \cc{g}6.41 & \cc{g}1.98 & \cc{r}-7.93 & \cc{r}-9.62 & \cc{r}-25.66 & -$\infty$ \\
+  \end{tabular}
 
-    \caption{Critical values as a function of $\alpha$ (rows) and $m$ (columns). The bottom table repeats the same information as
-    before, but it is now sorted by decreasing critical values.}
+  \caption{Critical values as a function of $\alpha$ (rows) and $m$ (columns). The bottom table repeats the same information as
+  before, but it is now sorted by decreasing critical values.}
 
-    \label{table:criticalvalues}
+  \label{table:criticalvalues}
 \end{table}
 
 \begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{fig/critical_sequences.png}
-    \caption{Critical values for the coupling as the wave number increases for a fixed interaction range of $\alpha=0.1$. The effect of
-    increasing $p$ is seen as a steeper slope for both positive and negative critical sequences.}
-    \label{fig:criticalsequences}
+  \centering
+  \includegraphics[width=\textwidth]{fig/critical_sequences.png}
+  \caption{Critical values for the coupling as the wave number increases for a fixed interaction range of $\alpha=0.1$. The effect of
+  increasing $p$ is seen as a steeper slope for both positive and negative critical sequences.}
+  \label{fig:criticalsequences}
 \end{figure}
 
 \noindent We see that if the coupling strength is decreased (increased) from 0 to more negative (positive) values, wave numbers become
@@ -649,9 +689,9 @@ with $m=0$ and critical value of $a_c=1.5$\cite{Wood06a,Wood06b,assis2011infinit
 solution will spontaneously form even when increasing the coupling to arbitrarily large values, since global synchrony is vastly more
 probable when the system is the quiescent initial state\cite{rodrigues2020synchronization}. For real systems with finite size, we might
 expect that fluctuations can indeed induce transitions between the different wave numbers for positive values of the coupling
-parameter, which is indeed verified in simulations in chapter \ref{chap:simulations}.
+parameter, which is indeed verified in simulations in chapter \ref{chap:simulation}.
 
-\section{Conclusion} In this chapter we have derived a MF approximation for discrete coupled oscillators with natural frequency
+\section{Conclusions} In this chapter we have derived a MF approximation for discrete coupled oscillators with natural frequency
 distribution $\omega\sim g$ on small-world networks generated by introducing coupling disorder into the regular ring networks. To
 obtain analytical results, and derive analogous expressions to previous work, we have restricted these to the regime of small amount of
 disorder ($p$). It is also implicitly assumed that the behavior of a sufficiently large network will be approximated by the average
