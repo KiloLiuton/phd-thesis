@@ -1,4 +1,5 @@
 \chapter{Mean field theory for small-world networks}
+\label{chap:mf}
 
 %The previous chapter focused mainly on simulation results for ring-lattices and small-world networks.
 
@@ -247,11 +248,11 @@ graph.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\linewidth]{fig/rewire_contributions.png}
-	\caption{The presence of the connection $(x,x')$, in {\color{blue}\textbf{blue}}, in a small-world network generated from the
-		Watts-Strogatz algorithm can only be the result of the rewiring of a {\color{red}\textbf{red}} connection. On the left side, the
-		\textbf{far} case, $2K$ connections may contribute to the formation of $(x,x')$. On the \textbf{near} case (right side), the
-		original connection may either be left untouched or, in case it is initially broken, it might be wired again by any of the
-	remaining $2(K-d_{xx'})+1$ solid {\color{red} red} connections.}
+  \caption{The presence of the connection $(x,x')$, in {\color{blue}\textbf{blue}}, in a small-world network generated from the
+    Watts-Strogatz algorithm can only be the result of the rewiring of a {\color{red}\textbf{red}} connection. On the left side, the
+    \textbf{far} case, $2K$ connections may contribute to the formation of $(x,x')$. On the \textbf{near} case (right side), the
+    original connection may either be left untouched or, in case it is initially broken, it might be wired again by any of the
+  remaining $2(K-d_{xx'})+1$ solid {\color{red} red} connections.}
   \label{fig:rewire_contributions}
 \end{figure}
 
@@ -317,10 +318,10 @@ with the potential connections marked in {\color{red}red} on the right side of f
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{fig/rewire_mc.png}
-	\caption{Comparison between expressions for the probability of existence of connections as functions of rewiring probability $p$.
-		Dots are obtained from Monte Carlo sampling of small-world networks produced by the Watts-Strogatz algorithm, solid red lines are
-		equations (\ref{eq:probfar}) (top) and (\ref{eq:probnear}) (bottom). \\ System size $N=1000$ with 50 realizations each. Note that
-		when $p\to 0$ initially disconnected oscillators remain uncoupled while oscillators at distances $d^{xx'}\leq K$ remain coupled.}
+  \caption{Comparison between expressions for the probability of existence of connections as functions of rewiring probability $p$.
+    Dots are obtained from Monte Carlo sampling of small-world networks produced by the Watts-Strogatz algorithm, solid red lines are
+    equations (\ref{eq:probfar}) (top) and (\ref{eq:probnear}) (bottom). \\ System size $N=1000$ with 50 realizations each. Note that
+    when $p\to 0$ initially disconnected oscillators remain uncoupled while oscillators at distances $d^{xx'}\leq K$ remain coupled.}
 
   \label{fig:rewire_mc}
 \end{figure}
@@ -336,69 +337,65 @@ $\left<D^{xx'}\right>$, resulting in
 \begin{equation}
   \left<D^{xx'}\right> =
   \begin{cases}
-    1-\left( 1 - \frac{p}{N} \right)^{2K} \quad &\text{if} \quad d_{xx'}>K\\
-    1-p\left( 1 - \frac{2K}{N} \right)\left( 1 - \frac{p}{N} \right)^{2K-2d_{xx'}+1} \quad &\text{if} \quad d_{xx'}\leq K\\
+    1-\left( 1 - \frac{p}{N} \right)^{2\alpha N} \quad &\text{if} \quad d_{xx'}>K \\
+    1-p\left( 1 - 2\alpha \right)\left( 1 - \frac{p}{N} \right)^{2(\alpha-\alpha')N+1} \quad &\text{if} \quad d_{xx'}\leq K\\
   \end{cases}
   \label{eq:probconnection}
 \end{equation}
 
-To further develop a MF approach, we focus on the first average on the RHS of equation~(\ref{eq:numf}). We argue that $\var{\sum
-D^{xx'}}$ is small, and thus $\sum D^{xx'} \approx \left< \sum D^{xx'} \right>$, allowing us to replace the average of the quotient by
-the quotient of the averages. Equation~(\ref{eq:numf}) then becomes:
+\noindent where we have used the definitions $\alpha \equiv K/N$ and $\alpha' \equiv d^{xx'}/N$, which are assumed to be constant as
+$N$ scales with proportional $K$ and $d^{xx'}$. When $N$ is large, we use the property
+
+\begin{equation*}
+  \lim_{N\to \infty}\left( 1 - \frac{p}{N} \right)^{2\alpha N + C} = e^{-2\alpha p}
+\end{equation*}
+
+\noindent to simplify the expression to
 
 \begin{equation}
-    \left< \frac{D^{xx'}}{\sum_{x'}D^{xx'}} \right> \approx \frac{\left< D^{xx'} \right>}{\sum_{x'}\left< D^{xx'} \right>}
+  \left<D^{xx'}\right> =
+  \begin{cases}
+    1-e^{-2\alpha p} \quad &\text{if} \quad d_{xx'}>K \\
+    1-p\left( 1 - 2\alpha \right)e^{-2(\alpha-\alpha')p} \quad &\text{if} \quad d_{xx'}\leq K\\
+  \end{cases}
+  \label{eq:probconnectionexp}
+\end{equation}
+
+Going back to equation~(\ref{eq:numf}), we wish to calculate the quantity $\left< \frac{D^{xx'}}{\sum D^{xx'}} \right>$. To do this, we
+argue that $\var{\sum D^{xx'}}$ is small, and thus $\sum D^{xx'} \simeq \left< \sum D^{xx'} \right>$ which is a constant, allowing us
+to replace the average of the quotient by the quotient of the averages, leading to
+
+\begin{equation}
+    \left< \frac{D^{xx'}}{\sum_{x'}D^{xx'}} \right> \simeq \frac{\left< D^{xx'} \right>}{\sum_{x'}\left< D^{xx'} \right>}
     \label{eq:avgquotient}
 \end{equation}
 
-\noindent By using (\ref{eq:probconnection}) we write:
+\noindent For small-world networks, the parameter $p$ tends to be small\cite{rodrigues2020synchronization}, as seen from
+figure~\ref{fig:small-world}. Thus, we take equation~(\ref{eq:probconnectionexp}) and expand the exponential terms in powers of $p$
+around $p=0$. Keeping up to first order in $p$ results in:
 
 \begin{align}
-  \sum_{x'=1}^N \left< D^{xx'} \right> = &\sum_{d_{xx'}\leq K} \left[
-  1 - p\left(1-\frac{2K}{N}\right)\left(1-\frac{p}{N}\right)^{2K - 2d_{xx'} + 1} \right] \notag\\
-    + &\sum_{d_{xx'}>K} \left[ 1 - \left( 1 - \frac{p}{N} \right)^{2K} \right]
+  \sum_{x'=1}^N \left< D^{xx'} \right> = &
+  \sum_{d_{xx'}>K} 2\alpha p \notag \\
+  + &
+  \sum_{d_{xx'}\leq K} \left( 1 - p + 2\alpha p \right),
 \end{align}
 
-\noindent which expanded in powers of $p$ using the binomial expansion results in
-
-%\begin{align}
-%  \left( a - b \right)^n = \sum_{i=0}^n \binom{n}{i}(-1)^ia^{n-i}b^{i} \notag
-%\end{align}
+Since the terms are now independent of $x'$, and noting that there are $2K=2\alpha N$ terms with distance $d^{xx'}\leq K$ and
+$N-2K=N(1-2\alpha)$ terms with distance $d^{xx'}>K$, we obtain:
 
 \begin{align}
-  \sum_{x'=1}^N \left< D^{xx'} \right> = &\sum_{d_{xx'}\leq K} \left[ \vphantom{\frac{2K}{N}} \right. 1 - \left( 1 - \frac{2K}{N} \right) p + \frac{\left( 2K-2d_{xx'}+1 \right)}{N} \left( 1 - \frac{2K}{N} \right) p^2 \notag\\
-  &\qquad - \frac{(2K-d_{xx'}+1)(2K-2d_{xx'})}{2N^2}\left( 1 - \frac{2K}{N} \right)p^3 + \mathcal{O}(p^4) \left. \vphantom{\frac{2K}{N}} \right] \notag\\
-  +&\sum_{d_{xx'}> K} \left[ 2\frac{K}{N}p - \frac{2K(2K-1)}{2N^2}p^2 + \frac{2K(2K-1)(2K-2)}{6N^3}p^3 - \mathcal{O}(p^4) \right]
-  \label{eq:ppower}
+  \sum_{x'=1}^N \left< D^{xx'} \right> &\simeq N(1-2\alpha)2\alpha p + 2\alpha N\left( 1 - p + 2\alpha p \right) \notag\\
+  &= \cancel{2\alpha Np} - \bcancel{4\alpha^2Np} + 2\alpha N - \cancel{2\alpha Np} + \bcancel{4\alpha^2Np}
 \end{align}
 
-In the limit of large $N$ with {\textit constant} $K/N\equiv \alpha$ ($\alpha \in \{0, 0.5\}$) we can write the coefficients of $p$ in
-equation~(\ref{eq:ppower}) as powers of $K$ ($K$ and $d_{xx'}$) divided by a power of $N$ for the far (near) case. Any terms of the
-form $K^a/N^b$ with $a<b$ (or of the form $K^a(d_{xx'})^b/N^c$ with $a+b<c$) will go to zero. Retaining powers of $K$ and $d_{xx'}$
-only if they are greater or equal to zero gives:
+\noindent or,
 
 \begin{align}
-  \sum_{x'=1}^N \left< D^{xx'} \right> = \sum_{d_{xx'}\leq K} &\left[ \vphantom{\frac{2K}{N}} \right. 1 - \left( 1 - 2\alpha \right) p + 2\left( \alpha-\alpha_{xx'} \right) \left( 1 - 2\alpha \right) p^2 \notag\\
-  &- (2\alpha^2 + \alpha_{xx'}^2 - 3\alpha\alpha_{xx'})\left( 1 - 2\alpha \right)p^3 + \mathcal{O}(p^4) \left.  \vphantom{\frac{2K}{N}} \right] \notag\\[12pt]
-  +\sum_{d_{xx'}> K} &\left[ 2\alpha p - 2\alpha^2 p^2 + \frac{4}{3}\alpha^3 p^3 - \mathcal{O}(p^4) \right]
-  \label{eq:ppower2}
+  \sum_{x'=1}^N \left< D^{xx'} \right> &\simeq 2K
 \end{align}
 
-\noindent where we have written $\alpha_{xx'} \equiv d_{xx'}/N$ for brevity.
-
-For small-world networks, the parameter $p$ tends to be small\cite{rodrigues2020synchronization}, as seen from
-figure~\ref{fig:small-world}, and considering only terms up to first order in $p$ allows us to perform the summations by eliminating
-terms that depend on $x'$:
-
-\begin{align}
-  \sum_{x'=1}^N \left< D^{xx'} \right> &= \sum_{d_{xx'}\leq K} \left( 1 - p + 2\alpha p \right) + \sum_{d_{xx'}> K} 2\alpha p \notag\\
-  &= 2K\left( 1 - p + 2\alpha p \right) + (N-2K)2\alpha p \notag\\
-  &= 2K - \cancel{2Kp} + \bcancel{4K\alpha p} + \cancel{2N\alpha p} - \bcancel{4K\alpha p} \notag\\[12pt]
-  \sum_{x'=1}^N \left< D^{xx'} \right> &= 2K
-  \label{eq:ppower3}
-\end{align}
-
-\noindent where we have made use of the fact that $N\alpha = K$. This result is consistent with the previous statement that the average
+This result is consistent with the previous statement that the average
 number of neighbors remains unchanged after the rewiring procedure, and also recovers previous results\cite{escaff2014arrays} for the
 case $p=0$.
 
@@ -410,46 +407,55 @@ the variance function inside the summation and ignore the covariance term, leadi
   \var{\sum_{x'}D^{xx'}} = \sum_{x'} \var{D^{xx'}}
 \end{equation}
 
-By making use of \ref{eq:probconnection} once more, we expand the binomials to get polynomials in $p$, cancelling out any terms
-$\mathcal{O}(1/N)$ and then keeping only first order in $p$:
-
-\begin{align}
-  \var{\sum_{x'}D^{xx'}} &= \sum_{\substack{x' \\ d^{xx'}\leq K}} \left( 2\alpha p + \cancelto{0}{\mathcal{O}(p^2)} \right) +
-  \sum_{\substack{x' \\ d^{xx'} > K}} \left( (1-2\alpha )p + \cancelto{0}{\mathcal{O}(p^2)} \right) \notag\\[12pt]
-  \var{\sum_{x'}D^{xx'}} &= \left(4\alpha-8\alpha^2\right)Np
-\end{align}
-
-\noindent where we have used the fact that there are $2K$ connections with distance $d^{xx'}\leq K$ and $N-2K$ connections with
-$d^{xx'}>K$. The resulting variance is proportional to $Np$, and thus for large $N$ it grows without bound, but it may be regarded as
-sufficiently small when compared to other system properties which are independent of $p$.
-
-With these last considerations, the expression for the average of the local order parameter becomes:
+\noindent where $\var{D^{xx'}} = \left< \left( D^{xx'} \right)^2 \right> - \left< D^{xx'} \right>^2$, but since $D^{xx'}$ are indicator
+variables with outcomes 0 or 1, we have that $\left< \left( D^{xx'} \right)^2 \right> = \left< D^{xx'} \right>$ and therefore:
 
 \begin{equation}
-	\left< \nu^x_j(t) \right> = \frac{1}{2K} \sum_{x'}\left< D^{xx'} \right> P^{x'}_j(t)
-	\label{eq:numffirstorder}
+  \var{D^{xx'}} = \left< D^{xx'} \right> - \left< D^{xx'} \right>^2
 \end{equation}
 
-\noindent where $P^{x'}_j(t) \equiv \left< \delta(j,j'(t)) \right>$ is the probability that the state $j'$ of oscillator at position
-$x'$ is equal to $j$ at time $t$.
-
-Taking terms of first order in $p$ from equation~(\ref{eq:probconnection}) and substituting into equation(\ref{eq:numffirstorder})
-results in the MF expression for $\nu$:
+By making use of equation~(\ref{eq:probconnectionexp}) and once more and expanding the exponentials around $p=0$ gives:
 
 \begin{equation}
-	\left< D^{xx'} \right> =
-	\begin{cases}
-    1-(1-2\alpha)p \quad &\text{if $d_{xx'} \leq K$}\\
-    2\alpha p \quad &\text{if $d_{xx'} > K$}
-	\end{cases}
+  \var{D^{xx'}} =
+  \begin{cases}
+    2\alpha p + \mathcal{O}(p^2) & \text{if $d^{xx'} > K$} \\
+    \left( 1-2\alpha \right)p + \mathcal{O}(p^2) & \text{if $d^{xx'} \leq K$}
+  \end{cases}
 \end{equation}
 
+\noindent which finally gives us the result
+
+\begin{equation*}
+  \sum\limits_{x'=1}^N\var{D^{xx'}} \simeq \sum_{d^{xx'} > K} 2\alpha p + \sum_{d^{xx'} \leq K} \left( 1-2\alpha \right)p
+\end{equation*}
+
+\noindent or,
 
 \begin{equation}
-  \upsilon_{j,MF}^x(t) = \underbrace{\frac{p}{N}\sum_{x'=1}^N P_j^{x'}(t)}_{\text{Global}}
-\quad + \quad \underbrace{\frac{1-p}{2K}\sum_{x'=-K}^K P_j^{x+x'}(t)}_{\text{Local}}
+  \var{\sum_{x'}D^{xx'}} = \left(1-2\alpha\right)4\alpha pN + \mathcal{O}(p^2)N
+\end{equation}
+
+The resulting variance is proportional to $Np$, and thus for large $N$ it grows without bound. Nonetheless, it may be regarded as
+sufficiently small when compared to other system properties which are independent of $p$ and, with these last considerations, we
+proceed to write the expression for the average of the local order parameter as:
+
+\begin{equation}
+  \left< \nu^x_j(t) \right> = \frac{1}{2K} \sum_{x'}\left< D^{xx'} \right> P^{x'}_j(t)
+  \label{eq:numffirstorder}
+\end{equation}
+
+\noindent where $P^{x'}_j(t) \equiv \left< \delta(j,j'(t)) \right>$ is the probability that the state $j'$ of the oscillator at
+position $x'$ is equal to $j$ at time $t$.  Using equation~(\ref{eq:probconnectionexp}) and substituting into (\ref{eq:numffirstorder})
+results in the MF expression:
+
+\begin{equation}
+  \left< \upsilon_j^x(t) \right> = \underbrace{\frac{p}{N}\sum_{x'=1}^N P_j^{x'}(t)}_{\text{Global}}
+  \quad + \quad \underbrace{\frac{1-p}{2K}\sum_{x'=x-K}^{x+K} P_j^{x'}(t)}_{\text{Local}}
   \label{eq:upsilonp}
 \end{equation}
+
+\noindent where we have completed the global sum by adding and subtracting the missing gap $x'-K$ and $x'+K$.
 
 We see that the effect of the rewiring process is to induce a global coupling component, while the coupling inside the initial range
 $2K$ is reduced by a factor $(1-p)$. In the limit of $p\to 0$, equation~(\ref{eq:upsilonp}) recovers the MF previously derived by
@@ -460,8 +466,8 @@ networks every connection has the same average connectivity value.
 
 \section{Continuous limit}
 
-In the previous session the discrete MF was derived by taking the limit $N\to\infty$ while keeping the ratio $\alpha\equiv K/N$ fixed.
-We now proceed to take the continuous limit of (\ref{eq:upsilonp}) by mapping the oscillator's indexes from 1 to $N$ to the semi-open
+In the previous section the discrete MF was derived by taking the limit $N\to\infty$ while keeping the ratio $\alpha\equiv K/N$ fixed.
+We now proceed to take the continuous limit of (\ref{eq:upsilonp}) by mapping the oscillators indexes from 1 to $N$ to the semi-open
 interval $[0,1)$ in the reals. The indexes $x,x' \in \{1,...,N\}$ become position coordinates $x,x'\in [0,1)$ and therefore $\nu^x_j(t)
 \to \nu_j(x,t)$ where $j$ still represents the state of the unit at $x$ with $j\in\{1,2,3\}$. Analogously, the expression for the
 probability of finding the oscillator at $x$ in state $j$ is now $P_j(x,t)$. The periodic conditions for any function of position $x$
@@ -475,16 +481,16 @@ becomes $f(x)=f(x+1)$. As for the sums we now have
 \noindent which leads us to the continuous expression for $\nu_j(x,t)$:
 
 \begin{align}
-  \nu_j(x,t) = p \int_0^1 P_j(x',t)dx' + \frac{1-p}{2\alpha}\int_{x-\alpha}^{x+\alpha} P_j(x',t)dx'
+  \nu_j(x,t) = p \int_0^1 P_j(x',t)dx' + \frac{1-p}{2\alpha}\int_{x-\alpha}^{x+\alpha} P_j(x',t)dx'.
   \label{eq:numfcontinuous}
 \end{align}
 
-\noindent the transition rates from state $j$ to $j+1$ for an oscillator at position $x$ in the continuous MF limit is then given by
+\noindent The transition rate from state $j$ to $j+1$ for an oscillator at position $x$ in the continuous MF limit is then given by
 rewriting equation~(\ref{eq:mfrate}) with the notation $\gamma^x_j(t) \to \gamma_j(x,t)$ and using (\ref{eq:numfcontinuous}) in place
 of $\nu^x_j$:
 
 \begin{align}
-  \gamma_j(x,t) = \omega(x) \exp\left[ a\left( \nu_{j+1}(x,t) - \nu_j(x,t) \right) \right]
+  \gamma_j(x,t) = \omega(x) \exp\left\{ a\left[ \nu_{j+1}(x,t) - \nu_j(x,t) \right] \right\}
   \label{eq:ratecontinuous}
 \end{align}
 
@@ -508,7 +514,7 @@ The system described by equations~(\ref{eq:ratecontinuous})~and~(\ref{eq:motionc
 lattices. One solution to this system is $P_1(x,t)=P_2(x,t)=1/3$, called the \textit{quiescent} solution. To see this, note that from
 equation~(\ref{eq:numfcontinuous}) we have $\nu_1(x,t) = \nu_2(x,t)$ when the probabilities are the same, and therefore $\gamma_1(x,t)
 = \gamma_2(x,t) = \gamma_3(x,t)=\omega(x)$ from equation~(\ref{eq:ratecontinuous}). The \textit{quiescent} solution is stable when the
-coupling strength $a$ is bellow some critical value $a_c$ that depends on the couplings and whose lowest value is attained for the
+coupling strength $a$ is below some critical value $a_c$ that depends on the couplings and whose lowest value is attained for the
 complete graph, with $a_c=1.5$. The threshold $a_c$ marks a Hopf bifurcation\footnotemark type transition for graphs that support
 global oscillations\cite{Wood06a}\cite{rodrigues2020synchronization}\cite{Wood06b}\cite{Wood07b}. When the coupling $a$ is larger than
 the critical value $a_c$ the \textit{quiescent} solution becomes unstable and self-organization takes place, usually in the form of
@@ -516,13 +522,13 @@ global synchronization. This does not necessarily mean global oscillations are s
 globally synchronized phases has been notoriously difficult for oscillator models in general.
 
 \footnotetext{A Hopf bifurcation occurs when a periodic solution arises around an equilibrium point as some parameter varies. Here, the
-oscillations arise around the \textit{quiescent} solution as $a$ increases past $a_c$.}
+oscillations arise around the \textit{quiescent} solution as $a$ increases beyond $a_c$.}
 
 In chapter~\ref{chap:simulation} we explore simulations on small-world networks with strong coupling that do not always lead to global
-oscillations. Depending on initial conditions and the inherent noise, the system may converge to a travelling wave solution, displaying
-only local synchronization. Following a similar analysis by Escaff et al.\cite{escaff2014arrays} we investigate such a wave solution by
-perturbing the \textit{quiescent} state with a waveform and then checking what happens to the time evolution of the amplitude of said
-perturbation, which we modulate by some arbitrary parameter $\epsilon_j$:
+oscillations. Depending on initial conditions and the intrinsic noise, the system may converge to a travelling wave solution,
+displaying only local synchronization. Following a similar analysis by Escaff et al.\cite{escaff2014arrays}, we investigate such a wave
+solution by perturbing the \textit{quiescent} state with a waveform and then checking what happens to the time evolution of the
+amplitude of said perturbation, which we modulate by some arbitrary parameter $\epsilon_j$:
 
 \begin{align}
   P_j(x,t) = 1/3 + \epsilon_j e^{ikx + \lambda t}
@@ -532,7 +538,7 @@ perturbation, which we modulate by some arbitrary parameter $\epsilon_j$:
 \noindent where $i=\sqrt{-1}$, $k\in\mathbb{R}$ and $\lambda\in\mathbb{C}$. The periodic condition $P_j(0,t) = P_j(1,t)$ implies that
 $k=2m\pi$ for an integer $m$. Assuming the perturbed solution is still a solution to the master equations~(\ref{eq:motioncontinuous}),
 the goal is to identify whether there are any conditions on the model parameters that allow for $\operatorname{Re}[\lambda]>0$, since
-in such case the amplitude of the waveform would increase as $t$ grows. Thus, for wave solutions we have
+in this case the amplitude of the waveform increases with time. Thus, for wave solutions we have
 
 \begin{align}
   \ddt{P}_j(x,t) &= \lambda\epsilon_j e^{ikx + \lambda t}
@@ -613,10 +619,10 @@ value $\bar{g}$. The perturbed solutions for sufficiently small values of $\epsi
 \end{align}
 
 \noindent where we have factored out $\operatorname{Re}(\lambda)$ to explicitly show the time dependence of the amplitude of the
-waveform. If this quantity is positive we expect a steady state of the form of a travelling wave. If it is negative than the
-perturbation will die out and the quiescent steady state will be reached. The fact that the dynamics only allow for one directional
-transitions (namely from $j$ to $j+1$ cycling back to 1 when $j=3$) means $\bar{g}>0$ always, and therefore
-$\operatorname{Re}(\lambda)>0$ implies $\hat{a} > 3/2$ which is:
+waveform. If this quantity is positive the wave amplitude grows without boundaries until higher order terms start dominating and
+possibly leading to saturation and stable waves. If $\operatorname{Re}(\lambda)$ is negative than the perturbation will die out and the
+quiescent steady state will be reached. The fact that the dynamics only allow for one directional transitions (namely from $j$ to $j+1$
+cycling back to 1 when $j=3$) means $\bar{g}>0$ always, and therefore $\operatorname{Re}(\lambda)>0$ implies $\hat{a} > 3/2$ which is:
 
 \begin{align}
   a(1-p)\frac{\sin(2\pi m\alpha)}{2\pi m\alpha} > \frac{3}{2}
@@ -664,8 +670,9 @@ decreasing critical values.
   0.20 & \cc{g}22.45 & \cc{g}11.89 & \cc{g}6.41 & \cc{g}1.98 & \cc{r}-7.93 & \cc{r}-9.62 & \cc{r}-25.66 & -$\infty$ \\
   \end{tabular}
 
-  \caption{Critical values as a function of $\alpha$ (rows) and $m$ (columns). The bottom table repeats the same information as
-  before, but it is now sorted by decreasing critical values.}
+  \caption{Critical values as a function of interaction range $\alpha$ (rows) and wave number $m$ (columns). Rows are sorted by the
+  value of the critical coupling. As interaction range increases, the destabilization of the wave numbers may change order when
+  starting from no coupling ($a=0$) and increasing/decreasing the coupling strength.}
 
   \label{table:criticalvalues}
 \end{table}
@@ -682,22 +689,22 @@ decreasing critical values.
 stable one by one. For example, if $\alpha=0.2$ in table~\ref{table:criticalvalues} and we decrease the coupling starting from 0, the
 first stable wave number is $m=4$ at the critical value of $a_c=-7.93$. These are the results derived in the work of Escaff et
 al.\cite{escaff2014arrays} for the case of $p=0$. In our extension to small-world networks, the effect of increasing $p$ is to make the
-critical sequence increase or decrease more sharply, as illustrated in figure~\ref{fig:criticalsequences}. A noteworthy thing about
-these sequences of critical values is that, for the negative coupling values, the system spontaneously self-organize to a wave solution
-when the first negative critical value is reached. For the positive case, the first stable solution is the globally synchronized one,
-with $m=0$ and critical value of $a_c=1.5$\cite{Wood06a,Wood06b,assis2011infinite,rodrigues2020synchronization}. Therefore, no wave
-solution will spontaneously form even when increasing the coupling to arbitrarily large values, since global synchrony is vastly more
-probable when the system is the quiescent initial state\cite{rodrigues2020synchronization}. For real systems with finite size, we might
-expect that fluctuations can indeed induce transitions between the different wave numbers for positive values of the coupling
-parameter, which is indeed verified in simulations in chapter \ref{chap:simulation}.
+critical sequence increase or decrease more sharply, as illustrated in figure~\ref{fig:criticalsequences}. A noteworthy aspect of these
+sequences of critical values is that, for negative coupling, the system spontaneously self-organize to a wave solution when the first
+negative critical value is reached. For positive coupling, the first stable solution is the globally synchronized one, with $m=0$ and
+critical value of $a_c=1.5$\cite{Wood06a,Wood06b,assis2011infinite,rodrigues2020synchronization}. Therefore, no wave solution will
+spontaneously form even when increasing the coupling to arbitrarily large values, since global synchrony is vastly more probable when
+the system is the quiescent initial state\cite{rodrigues2020synchronization}. For real systems with finite size, we might expect that
+fluctuations can indeed induce transitions between the different wave numbers for positive values of the coupling parameter, which is
+indeed verified in simulations in chapter \ref{chap:simulation}.
 
 \section{Conclusions} In this chapter we have derived a MF approximation for discrete coupled oscillators with natural frequency
 distribution $\omega\sim g$ on small-world networks generated by introducing coupling disorder into the regular ring networks. To
-obtain analytical results, and derive analogous expressions to previous work, we have restricted these to the regime of small amount of
-disorder ($p$). It is also implicitly assumed that the behavior of a sufficiently large network will be approximated by the average
-behavior over different networks, since the building process for small-world networks considered is stochastic. For real finite
+obtain analytical results, and derive analogous expressions to previous work, we have restricted these to the regime of small disorder
+($p$). It is also implicitly assumed that the behavior of a sufficiently large network will be approximated by the average behavior
+over different networks, since the building process for the small-world networks considered here is stochastic. For real finite
 systems, it is possible that some realization of a small-world network would not produce these macroscopic behaviors since fluctuations
-become more dominant as system size is decreased. Nonetheless, the theory produced predicts some properties that can be tested through
+become more dominant as system size is decreased. Nonetheless, the theory predicts some properties that can be tested through
 simulation, such as the failure to achieve global synchrony even for large positive couplings depending on initial conditions and
-fluctuations, and the change in speed with which these waves travel if there are macroscopic patters in the spatial distribution of the
-natural frequencies of the constituent phase oscillators.
+fluctuations, and the change in speed with which these waves travel if there are macroscopic patterns in the spatial distribution of
+the natural frequencies of the constituent phase oscillators.
