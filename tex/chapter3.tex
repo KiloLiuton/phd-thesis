@@ -47,7 +47,7 @@ transition from $j$ to $j+1$ is written just as $\gamma^x_j$, and its behavior i
 
 \begin{equation}
   \gamma^x_j(t) = \omega^x\exp\left[ a\frac{n^x_{j+1}(t) - n^x_j(t)}{n^x} \right] \qquad x=1,\dots, N
-  \label{rate}
+  \label{eq:rate}
 \end{equation}
 
 \noindent where $\omega^x$ is its natural (uncoupled) frequency, $n^x_j(t)$ is the count of how many of its neighbors are in state $j$,
@@ -82,8 +82,8 @@ networks.
 \section{The local average field in the discrete case}
 
 To define the local average field, we introduce a \textit{local order parameter} $\nu$ identified by the fractions in the exponent of
-equation~(\ref{rate}) at a fixed time $t$. It is a measurement of the synchrony between oscillators which are coupled to the oscillator
-at position $x$.
+equation~(\ref{eq:rate}) at a fixed time $t$. It is a measurement of the synchrony between oscillators which are coupled to the
+oscillator at position $x$.
 
 \begin{equation}
   \nu^x_j(t) \equiv \frac{n^x_j(t)}{n^x}
@@ -636,6 +636,7 @@ value for the coupling is given by setting an equality in equation~(\ref{eq:lamb
 
 \begin{align}
   a_c = \frac{3}{2}\frac{1}{(1-p)}\frac{(2\pi m\alpha)}{\sin(2\pi m\alpha)}
+	\label{eq:ac}
 \end{align}
 
 Thus, the critical value is a function of $p$, $\alpha$, and the wave number $m$. If we fix $p$ and $\alpha$, which are continuous

@@ -2,54 +2,56 @@
 \label{chap:kuramoto}
 
 
-In this chapter we describe the Kuramoto model, it's dynamics and self-consistency arguments that allow for a synchronous phase to
+In this chapter we describe the Kuramoto model, its dynamics and self-consistency arguments that allow for a synchronous phase to
 emerge at some critical coupling. To do this, an order parameter is introduced together with a mean-field (MF) approximation. The
-stability analysis of the solutions of the Kuramoto model took decades to develop and led to some very anti-intuitive findings such as
+stability analysis of the solutions of the Kuramoto model took decades to develop and led to some very anti intuitive findings, such as
 the fact that the disordered phase for weak coupling is not stable, but neutrally stable, and is related to Landau damping in plasma
-physics.  Nonetheless, the two branches of solutions identified in his initial work don't require solving the original set of
-equations, but rather rely on assuming macroscopic behaviors for the system and tracing back what implications they incur on the
+physics.  Nonetheless, the two branches of solutions identified in Kuramoto's initial work don't require solving the original set of
+equations, but rather rely on assuming macroscopic behaviors for the system and tracing back what implications they have for the
 microscopic dynamics.  This feedback from macro to micro is central to Kuramoto's self-consistency arguments, which helped popularize
 his model by lowering the barrier of entry to understanding synchronization in complex systems. Much of the discussion developed in
-this section are reproductions from the notes \textit{J D da Fonseca and C V Abud J. Stat. Mech.} \cite{da_Fonseca_2018}.
+this section are reproductions from the notes of da Fonseca Abud\cite{da_Fonseca_2018}.
 
 
 \section{Definition}
 
-The Kuramoto model deals with a collection of phase oscillators which are all coupled to each other. We start with a collection of $N$
-oscillators and then take the continuous limit with $N \to \infty$. Each unit at time $t$ is described by its phase value $\phase_j(t)$
-and its natural frequency $\nfreq_j$, which is its uncoupled phase rate of change and assumed to be constant. The natural frequencies
-$\vec{\nfreq}\equiv \{\nfreq_1,\dots,\nfreq_N\}$ are assumed to follow some frequency distribution $\vec{\nfreq} \sim g(\vec{\nfreq})$
-which is symmetric about some frequency $\bar{\nfreq}$ and unimodal. While the phase change of an isolated unit is only time dependent,
-the coupling between oscillators makes $\ddt{\phase_j}$ a function of the whole phase configuration $\vec{\phase}(t) \equiv \{
-\phase_1(t), \dots, \phase_N(t)\}$. In what follows, the time dependence of $\phase$ will be made implicit.
+The Kuramoto model consists of a collection of phase oscillators (``units'') which are all coupled to each other. We start with a
+collection of $N$ oscillators and then take the continuous limit with $N \to \infty$. Each unit $j$ at time $t$ is described by its
+phase value $\phase_j(t)$ and its natural frequency $\nfreq_j$, which is its rate of change in phase in isolation, and is assumed to be
+constant. The natural frequencies $\vec{\nfreq}\equiv \{\nfreq_1,\dots,\nfreq_N\}$ are assumed to follow some frequency distribution
+$\vec{\nfreq} \sim g(\vec{\nfreq})$ which is symmetric about some frequency $\bar{\nfreq}$, and unimodal. While the rate of change of
+an isolated unit is time independent, the coupling between oscillators makes $\ddt{\phase_j}$ a function of the entire phase
+configuration $\vec{\phase}(t) \equiv \{ \phase_1(t), \dots, \phase_N(t)\}$.
 
 The biologically inspired Winfree model states that, at every instant, each oscillator sends a signal of strength $P(\phase)$ and
-responds by adjusting its own phase value by an amount $Q(\phase)$, which is captured in the equation:
+responds by adjusting its own phase value proportionally to $Q(\phase)$ when receiving signals from other units, which is captured in
+the equation:
 
 \begin{equation}
     \ddt{\phase_j} = \nfreq_j + \frac{1}{N}\sum^{N}_{k}P(\phase_k)Q(\phase_j), \qquad j=1,...,N
     \label{winfreeeq}
 \end{equation}
 
-If the rate of change of a unit's phase depends only on the phase difference between itself and its neighbors, the product inside the
-summation can be written as a single function called the kernel $F$: $P(\Delta \phase)Q(\Delta \phase) \equiv F(\Delta \phase)$. If
-furthermore the kernel is proportional to the sine function, then Winfree's equation~(\ref{winfreeeq}) becomes the Kuramoto model:
+In the special case where the product $P(\phase_k)Q(\phase_j)$ depends only on the phase difference between oscillators $j$ and $k$,
+the product inside the summation can be written as a single function called the kernel $F$: $P(\Delta \phase)Q(\Delta \phase) \equiv
+F(\Delta \phase)$. If furthermore the kernel is proportional to the sine function, then Winfree's equation~(\ref{winfreeeq}) becomes
+the Kuramoto model:
 
 \begin{equation}
-    \ddt{\phase_j} = \nfreq_j + \frac{\kc}{N}\sum^{N}_{k}sin(\phase_k - \phase_j), \qquad j=1,...,N
+    \ddt{\phase_j} = \nfreq_j + \frac{\kc}{N}\sum^{N}_{k}\sin(\phase_k - \phase_j), \qquad j=1,...,N
     \label{kura}
 \end{equation}
 
-\noindent where $\kc \geq 0$ is a real constant which describes the coupling strength between a pair of oscillators.
+\noindent where $\kc \geq 0$ is a real constant which describes the coupling strength between any pair of oscillators.
 
 \section{Mean-field and order parameter}
 
 To determine if the microscopic collection of phases represents a synchronized macro state, we introduce the Kuramoto order parameter
-$R$. It maps some phase configuration $\vec{\phase}$ to a magnitude by representing the phase values as complex numbers in the unit
-circle and performing a complex summation:
+$R$. It maps a phase configuration $\vec{\phase}$ to a magnitude by representing the phase values as complex numbers on the unit circle
+and performing a complex summation:
 
 \begin{align}
-    R(\vec{\phase})e^{i\phi(\vec{\phase})} &\equiv \frac{1}{N} \sum^{N}_{k} e^{\phase_k(t)}
+    R(\vec{\phase})e^{i\phi(\vec{\phase})} &\equiv \frac{1}{N} \sum^{N}_{k} e^{i\phase_k(t)}
     \label{kuramotoop}
 \end{align}
 
@@ -58,21 +60,21 @@ circle and performing a complex summation:
 re-written as:
 
 \begin{align}
-    \ddt{\phase_j} &= \nfreq_j + \frac{\kc}{N}\sum^{N}_{k}sin(\phase_k - \phase_j) \notag \\
+    \ddt{\phase_j} &= \nfreq_j + \frac{\kc}{N}\sum^{N}_{k}\sin(\phase_k - \phase_j) \notag \\
                    &= \nfreq_j + \kc \operatorname{Im}\left( \frac{1}{N}\sum^{N}_{k} e^{i(\phase_k-\phase_j)} \right) \notag \\
                    &= \nfreq_j + \kc R(\vec{\phase}) \operatorname{Im}\left( e^{i(\phi(\vec{\phase}) - \phase_j)} \right) \notag \\[18pt]
     \ddt{\phase_j} &= \nfreq_j + \kc R(\vec{\phase}) \sin ( \phi(\vec{\phase}) - \phase_j )
     \label{kuramf}
 \end{align}
 
-We see that the equations of motion are now written in terms of the mean-fields $R(\vec{\phase})$ and $\phi(\vec{\phase})$. In
-particular, if the fields are constant ($\ddt{R} = \ddt{\phi}=0$) than the equations of motion become decoupled and can be solved.
+We see that the equations of motion are now written in terms of the mean fields $R(\vec{\phase})$ and $\phi(\vec{\phase})$. In
+particular, if the fields are constant ($\ddt{R} = \ddt{\phi}=0$) then the equations of motion become decoupled and can be solved.
 
-The collective oscillations observed in real systems tells us that the macroscopic steady-state solution of stable synchronized
+The collective oscillations observed in real systems tell us that the macroscopic steady-state solution of stable synchronized
 oscillations should indeed have constant $R>0$ while $\phi$ increases linearly with time (the system rotates synchronously with
 constant phase speed).  Thus, $\phi=\Omega t$ and both $R$ and $\Omega$ are constant. Even though $\phi$ itself is not constant, it
-turns out that the rotational symmetry of equation~(\ref{kuramf}) allows us to decouple the equations by changing into a rotating frame
-of reference with the following substitution:
+turns out that the rotational symmetry of equation~(\ref{kuramf}) allows us to decouple the equations by moving to a rotating frame of
+reference with the following substitution:
 
 \begin{align}
     \forall j: \quad \phase_j(t) &= \phaserot_j(t) + \Omega t \notag\\
@@ -82,12 +84,12 @@ of reference with the following substitution:
     \label{kurarot}
 \end{align}
 
-Another macroscopic behavior observed in nature is the more trivial one, where there is no synchronization at all. In this state the
-phase configuration is evenly distributed amongst all possible values, leading to constant $R=0$, and is also described by
+Another macroscopic behavior observed in nature is the more trivial one, with no synchronization at all. In this state the phase
+configuration is evenly distributed over all possible values, leading to constant $R=0$, and is also described by
 equation~(\ref{kurarot}). Inspection of this equation shows that when $|\nfreq_j - \Omega| \leq \kc R$ there is some phase value for
-which $\ddt{\phaserot_j}=0$, and thus oscillators become phase-locked when attaining this value. When $|\nfreq_j - \Omega| > \kc R$
-oscillators can never come to a stop since $\ddt{\phase_j} \neq 0$, and will permanently drift. For a synchronized solution we then
-expect two groups of oscillators:
+which $\ddt{\phaserot_j}=0$, and thus oscillators become phase-locked when attaining this value. When $|\nfreq_j - \Omega| > \kc R$,
+the $\phaserot_j$ can never stop varying and will permanently drift. For a synchronized solution we then expect two groups of
+oscillators:
 
 \begin{itemize}
     \item \textbf{Phase-Locked} $|\nfreq_j - \Omega|\leq \kc R$: A group of oscillators with natural frequencies close enough to
@@ -101,28 +103,33 @@ oscillators must be stationary, otherwise $R$ would not be constant.
 
 \section{Continuous Limit}
 
-In the continuous limit the distribution of oscillators phases can be written as the joint probability distribution in phases
+In the continuous limit $N\to \infty$, the distribution of oscillator phases can be written as the joint probability density in phases
 $\phaserot$ and natural frequencies $\nfreq$ as:
 
-\begin{gather}
-    \phaserot_j, \nfreq_j \to p(\phaserot, \nfreq,t) \qquad \phaserot \in [-\pi, \pi) \qquad \nfreq \in (-\infty, \infty) \notag\\[10pt]
-    \ddt{\phaserot} = (\nfreq - \Omega) - \kc R \sin(\phaserot)
-    \label{eqmotioncontinuous}
-\end{gather}
+\begin{equation*}
+	P(\phaserot_j, \nfreq_j,t) \to p(\phaserot, \nfreq,t) \qquad \phaserot \in [-\pi, \pi) \qquad \nfreq \in (-\infty, \infty)
+\end{equation*}
 
-\noindent The density of oscillators with phase $\phaserot$ is then given by the marginalized distribution:
+\noindent For given values of $\phaserot$ and $\nfreq$, the evolution follows
+
+\begin{equation}
+	\ddt{\phaserot} = (\nfreq - \Omega) - \kc R \sin(\phaserot).
+	\label{eqmotioncontinuous}
+\end{equation}
+
+\noindent The density of oscillators with phase $\phaserot$ is then given by the marginal distribution:
 
 \begin{align*}
     n(\phaserot) = \myint_{-\infty}^{\infty} p(\phaserot, \nfreq,t) d\nfreq
 \end{align*}
 
-\noindent which by Bayes' rule gives:
+\noindent which by the definition of conditional probability gives:
 
 \begin{align*}
     n(\phaserot) = \myint_{-\infty}^{\infty} p(\phaserot | \nfreq)g(\nfreq) d\nfreq
 \end{align*}
 
-\noindent where $p(\phaserot|\nfreq)$ is the conditional probability distribution that an oscillator with given natural frequency
+\noindent where $p(\phaserot|\nfreq)$ is the conditional probability density that an oscillator with given natural frequency
 $\nfreq$ has phase value $\phaserot \equiv \phaserot(t)$ at time $t$.
 
 By using the subscripts $L$ and $D$ to indicate the \textit{phase-locked} and \textit{drifting} groups, we get the expression for the
@@ -144,17 +151,17 @@ For the phase locked group we know that for $t \to \infty$, $\ddt{\phaserot}=0$ 
 we solve equation~(\ref{eqmotioncontinuous}) to obtain:
 
 \begin{gather}
-    \phaserot^\star = \arcsin \left( \frac{\nfreq - \Omega}{\kc R} \right) \\[10pt]
+    \phaserot^\star = \arcsin \left( \frac{\nfreq - \Omega}{\kc R} \right), \quad
     \phaserot^\star \in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right] \notag
 \end{gather}
 
-Therefore, the conditional distribution of $\phaserot$ given $\nfreq$ is a Dirac delta function centered around $\phaserot^\star$ since
-this is an attractor for all oscillators with natural frequency $\nfreq$.
+Therefore, the conditional distribution of $\phaserot$ given $\nfreq$ is a Dirac delta function centered around $\phaserot^\star$,
+since this is an attractor for all oscillators with natural frequency $\nfreq$.
 
 \begin{gather}
     \label{lockedprob}
-    p_L(\phaserot | \nfreq) = \delta\left[ \phaserot - \arcsin \left( \frac{\nfreq - \Omega}{\kc R} \right) \right] \\[10pt]
-    \phaserot \in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right] \notag
+    p_L(\phaserot | \nfreq) = \delta\left[ \phaserot - \arcsin \left( \frac{\nfreq - \Omega}{\kc R} \right) \right], \quad
+    \phaserot \in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right]
 \end{gather}
 
 We now perform the left integral in equation~(\ref{density}) to find the density of phase locked oscillators to obtain:
@@ -176,36 +183,41 @@ We now perform the left integral in equation~(\ref{density}) to find the density
 \end{align}
 
 Equation~(\ref{densitylocked}) shows us that the phase locked oscillators are distributed in the half-moon around the order parameter,
-in accordance to direct simulations of the equations of motion. Since $\phaserot$ values are phase-locked, the probability distribution
-of synchronized oscillators $n_L$ is also time independent, in addition to $n$.
+in accord with direct simulations of the equations of motion. Since the $\phaserot$ values are phase-locked, the probability
+distribution of synchronized oscillators $n_L$ is also time independent, in addition to $n$.
 
 \section{Phase distribution of drifting oscillators}
 
-In order to derive the distribution of phases for drifting oscillators, we start by taking into account the continuity equation applied
-to the conditional distribution of phases. Since the natural frequency for each oscillator is immutable, the conservation of total
-phase should apply individually for each natural frequency $\nfreq$. We show this by taking the fraction of oscillators with phase
-$\phaserot$ in the control interval $[\phaserot, \phaserot + \delta \phaserot ]$ that have natural frequency $\nfreq$, given by the
-integral:
+In order to derive the distribution of phases for drifting oscillators, for which $|\nfreq - \Omega| > \kc R$, consider an interval
+$[\phaserot, \phaserot + \delta \phaserot ]$ in phase values. The fraction of oscillators with natural frequency $\nfreq \in [\nfreq',
+\nfreq' + \delta\nfreq]$ inside this interval is given by:
 
 \begin{align}
-    \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot'
-    \label{count}
+	\left[ \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] \delta \nfreq
+	\label{count}
 \end{align}
 
-By taking the time derivative of~(\ref{count}) we get the total variation of phase inside the control interval. By denoting the
-anti-derivative of $p(\phaserot | \nfreq)$ as $P(\phaserot | \nfreq)$ we have:
+The change per unit time in the fraction of oscillators inside this interval is then given by the time derivative of~(\ref{count}), but
+since all intervals endpoints $\nfreq$, $\delta\nfreq$ and $\phaserot$, $\delta\phaserot$ are fixed we have:
+
+\begin{equation}
+	\partial_t \left[ \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] =
+	\myint_{\phaserot}^{\phaserot + \delta \phaserot}\partial_t p(\phaserot' | \nfreq) d\phaserot'
+\end{equation}
+
+\noindent Conservation of probability inside the interval $[\phaserot,\phaserot+\delta\phaserot]$ mandates that the net change in
+probability must equal the difference between fluxes at the endpoints. The probability current is written as $j(\phaserot, \nfreq, t) =
+p(\phaserot|\nfreq)\ddt{\phaserot}$
 
 \begin{align}
-    \partial_t \left[ \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] &= \partial_t \left[ P(\phaserot + \delta\phaserot | \nfreq) - P(\phaserot | \nfreq) \right] \notag\\
-    &= \frac{\partial P(\phaserot + \delta\phaserot | \nfreq)}{\partial (\phaserot+\delta\phaserot)}\frac{\partial(\phaserot+\delta\phaserot)}{\partial t} - \frac{\partial P(\phaserot | \nfreq)}{\partial\phaserot}\frac{\partial\phaserot}{\partial t} \notag\\[20pt]
-    \partial_t \left[ \myint_{\phaserot}^{\phaserot + \delta \phaserot} p(\phaserot' | \nfreq) d\phaserot' \right] &= p(\phaserot+\delta\phaserot | \nfreq)\ddt{\phaserot}(\phaserot+\delta\phaserot) - p(\phaserot | \nfreq)\ddt{\phaserot}(\phaserot)
-    \label{control_interval}
+	\myint_{\phaserot}^{\phaserot + \delta \phaserot}\partial_t p(\phaserot' | \nfreq) d\phaserot' = 
+	\label{control_interval}
 \end{align}
 
-Intuitively, equation equation~(\ref{control_interval}) implies that the rate of change of probability inside the control interval is
-equal to the difference of fluxes at the extremities of the interval. Dividing this expression by $\delta\phaserot$ and taking the
-limit of $\delta\phaserot \to 0^+$ leads us to the continuity equation for the conservation of probability density of oscillators with
-natural frequency $\nfreq$:
+Intuitively, equation~(\ref{control_interval}) implies that the rate of change of probability inside the control interval is equal to
+the difference of fluxes at the extremities of the interval. Dividing this expression by $\delta\phaserot$ and taking the limit of
+$\delta\phaserot \to 0^+$ leads us to the continuity equation for the conservation of probability density of oscillators with natural
+frequency $\nfreq$:
 
 \begin{gather}
     \lim_{\delta\phaserot \to 0^+} \frac{p(\phaserot+\delta\phaserot | \nfreq)\ddt{\phaserot}(\phaserot+\delta\phaserot) - p(\phaserot | \nfreq)\ddt{\phaserot}(\phaserot)}{\delta\phaserot} = \partial_\phaserot \left[ p(\phaserot | \nfreq) \ddt{\phaserot}(\phaserot) \right]  \notag\\

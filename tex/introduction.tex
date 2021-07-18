@@ -3,40 +3,40 @@
 In 1951 the Belousov-Zhabotinsky class of chemical reactions were created for the first time in a laboratory. This feat marked an
 upheaval in thermodynamics, which had now been shown, experimentally, to be ruled by non-equilibrium dynamics even for long mixing
 times. This generated for the first time interest in the field of coupled oscillators by the broader scientific community. In the
-decades that followed, other areas of research independently led to the same interests. In 1958, Norbet Weiner at the MIT was looking
-at power spectrum graphs generated from brain scans and decided that there must be some kind of synchronization amongst coupled,
-periodically-firing, neurons. Also inspired by many biological rhythms observed in nature, Arthur Winfree published in 1967 a paper on
-the mathematical modelling of interacting oscillators. Winfree defined a phase oscillator as an abstraction of any system that
-possesses periodicity. As such, a complicated periodic process inside a living cell could be described by a single real number, between
-$0$ and $2\pi$, and its rate of change. The major simplification comes from the fact that when two such phase oscillators interact,
-each influences \textit{only} the rate of change in phase of the other. Their trajectories in phase space are assumed to remain closed
-loops, and thus the only effective change can be modeled as a change in speed at which they traverse it.
+decades that followed, other areas of research independently led to the same interests. In 1958, Norbet Weiner at MIT was looking at
+power spectra from brain scans and decided that there must be some kind of synchronization amongst coupled, periodically-firing,
+neurons. Also inspired by many biological rhythms observed in nature, Arthur Winfree published in 1967 a paper on the mathematical
+modelling of interacting oscillators. Winfree defined a phase oscillator as an abstraction of any system that possesses periodicity. As
+such, a complicated periodic process inside a living cell could be described by a single real number, between $0$ and $2\pi$, and its
+rate of change. The major simplification comes from the fact that when two such phase oscillators interact, each influences
+\textit{only} the rate of change in phase of the other. Their trajectories in phase space are assumed to remain closed loops, and thus
+the only effective change can be modeled as a change in the speed at which they traverse it.
 
-Seven years after Winfree's paper from 1967, the then young Japanese scientist Yoshiki Kuramoto recognized what made Winfree's model
-hard to solve. He proposed a modified version of it, assuming a particular form for the coupling function between oscillators. This led
-to an arguably less realistic model, but one which Kuramoto was cunningly able to solve. This modified version, together with its
-solution, would later be recognized as the Kuramoto model, becoming one of the major founding stones in the field.
+Seven years after Winfree's 1967 paper, the young Japanese scientist Yoshiki Kuramoto recognized what made Winfree's model hard to
+solve. He proposed a modified version of it, assuming a particular form for the coupling between oscillators. This led to an arguably
+less realistic model, but one which Kuramoto was cunningly able to solve. This modified version, together with its solution, would
+later be recognized as the Kuramoto model, becoming one of the major founding stones in the field.
 
-Since then, a plethora of novel coupled oscillator models have been put forward. A class of them deal with discrete phase oscillators,
-where the phase value that describes a unit can only attain values in a finite set of possible phase states. Discrete phase models are
-used to describe systems which present markedly distinct states. An example of such a system is interacting neurons, where one could
-identify three distinct phases of a neuron cell as the three available phase values: firing, refractory, ready-to-fire.
+Since then, a plethora of novel coupled oscillator models have been put forward. One class deals with discrete phase oscillators, in
+which the phase that describes a unit is related to a finite set of possible values. Discrete-phase models are used to describe systems
+which exhibit markedly distinct states. An example of such a system is interacting neurons, where one can identify the three distinct
+phases of a neuron as firing, refractory and ready-to-fire.
 
-Another element present in some models is the introduction of stochasticity in the dynamics, which are deterministic in the Kuramoto
-model. The element of stochasticity may be included to account for noise, such as in models that are not closed systems and interact
-with some sort of heat bath.
+Another element present in some models is stochasticity in the dynamics, which is deterministic in the Kuramoto model. The element of
+stochasticity may be included to account for noise, such as in models of open systems that interact with a heat bath.
 
-Here we consider discrete phase models with three possible phase states, and stochasticity plays a role in the rate of change of a
-units phase state, being the probability of ``jumping'' to the next state per unit time. This model was first introduced by Kevin Wood,
-C. Van den Broeck, R. Kawai and Katja Lindenberg \cite{Wood06a}, with the main motivation of finding the simplest possible dynamics
-between phase oscillators that still led to a phase transition to synchrony. Initial investigations focused mainly on square lattices
-and all-to-all connections, exposing the ubiquity of this type of self-organization. Often times, networks of coupled oscillators
-observed in nature belong to neither of these two classes. Neurons, fireflies, cardiac cells, are all examples of systems that do not
-operate on lattices or complete-graph networks. One common type of interaction network observed in real systems are a mix between local
-and global interactions. Various algorithms have been proposed for the generation of such intermediate connectivity graphs, some of
-which generate small-world networks, characterized by the presence of long range interactions while preserving strong local clustering.
+Here we consider discrete-phase models with three possible phase states, and stochasticity plays a role in the rate of change of the
+phase state of each unit, being the probability of ``jumping'' to the next state per unit time. This model was introduced by Kevin
+Wood, C.  Van den Broeck, R. Kawai and Katja Lindenberg \cite{Wood06a}, with the main motivation of finding the simplest possible
+dynamics between phase oscillators that still led to a phase transition to synchrony. Initial investigations focused mainly on square
+lattices and all-to-all connections, exposing the ubiquity of this type of self-organization. Often times, networks of coupled
+oscillators observed in nature possess neither of these two. Neurons, fireflies and cardiac cells are all examples of systems that do
+not operate on lattices or complete-graph networks. One common type of interaction network observed in real systems is a mix between
+local and global interactions. Various algorithms have been proposed for the generation of such intermediate connectivity graphs, some
+of which generate small-world networks, characterized by the presence of long-range interactions while preserving strong local
+clustering.
 
 A particular example for the generation of small-world networks is the Watts-Strogatz algorithm, which randomly breaks connections on
 an existing graph and re-creates them between random vertices. When applied to certain starting graphs with strong local clustering,
-the result is a small-world network. Here we investigate how the dynamics of the three-phase oscillators model unfold on such networks,
+the result is a small-world network. Here we investigate how the dynamics of the three-phase oscillator model unfolds on such networks,
 via simulation and a mean-field analysis.
